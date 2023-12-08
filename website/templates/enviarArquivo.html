@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar arquivo</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%}    
+    <h1>Enviar Arquivo</h1>
+    <label> Título: </label>
+    <input type="text" name="titulo">
+    <br>
+    <label> Período histórico: </label>
+    <input type="text" name="periodoHistorico">
+    <br>
+    <label> Ano do arquivo: </label>
+    <input type="text" name="anoArquivo">
+    <br>
+    <label> Descrição do arquivo: </label>
+    <textarea name="descArquivo" id="" cols="30" rows="5"></textarea>
+    <br>
+    <label> Escolha o arquivo que deseja enviar: </label>
+    <input type="file" id="myFile" name="enderecoArquivo" />
+    <br>  
+    <button type="submit" name="Enviar">Enviar</button>
+    </form>
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}    
+</body>
+</html>

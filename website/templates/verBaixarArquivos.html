@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <style>
+        table, th, td {
+          border:1px solid black;
+        }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver/baixar arquivos</title>
+</head>
+<body>
+    <h1>Ver/baixar arquivos</h1>
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%} 
+    <label for="">Filtar por:</label>
+
+    <label for=""></label>
+    <select name="periodoHistorico" id="uname">
+        <option value=""></option>
+        {% for pHisto in pHistorico %}
+        <option value="{{pHisto}}">{{pHisto}}</option>
+        {% endfor %}
+    </select>
+
+    <label for="">Ordenar por:</label>
+    <select name="ordenar" id="uname">
+        <option value="Nome"></option>
+        <option value="Nome">Nome</option>
+    </select>
+
+    <label for="">Formato: </label>
+    <input type="text" name="formato">
+
+    <button type="submit" name="Pesquisar">Pesquisar</button>
+    <br>
+    <br>
+
+    <table style="width:20%">
+        <tr>
+            <tr>
+                <th>Título</th>
+                <th>Período histórico</th>
+                <th>Ano do arquivo</th>        
+                <th>Visualizar</th>
+                <th>Baixar</th>
+           
+            </tr>
+
+            {% for arquivo in arquivos %}
+            <td>{{arquivo.titulo}}</td>
+
+            <td>{{arquivo.periodoHistorico}}</td>
+
+            <td>{{arquivo.anoArquivo}}</td>
+
+    <td><button type="submit"  name="visualizar">
+        <a href="/visualizarArquivo/{{arquivo.enderecoArquivo}}">Visualizar</a>
+    </button></td>
+
+    <td><button type="submit" name="baixar">
+        <a href="/baixarArquivo/{{arquivo.enderecoArquivo}}">Baixar</a>
+      </button></td>
+    </tr>  
+    {% endfor %}
+
+</table>
+</form>
+{% for message in messages %}
+        {{ message }}
+    {% endfor %}  
+</body>
+</html>

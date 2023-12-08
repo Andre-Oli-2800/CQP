@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%} 
+    <h1>Editar Arquivo</h1>
+    <label> Título: </label>
+    {% for arq in arquivo %}
+    <input type="text" name="titulo" value="{{arq.titulo}}"></input>
+    <br>
+    <label> Período histórico: </label>
+    <input type="text" name="periodoHistorico" value="{{arq.periodoHistorico}}"></input>
+    <br>
+    <label> Ano do arquivo: </label>
+    <input type="text" name="anoArquivo" value="{{arq.anoArquivo}}"></input>
+    <br>
+    <label> Descrição do arquivo: </label>
+    <br>
+    <textarea name="descArquivo" id="" cols="30" rows="5"  >{{arq.descArquivo}}</textarea>
+    <br>
+    <label> Escolha o arquivo que deseja enviar: </label>
+    <input type="file" id="myFile" name="enderecoArquivo" value="{{arq.enderecoArquivo}}" />
+    <br>  
+    <button type="submit" name="salvar">Salvar</button>
+
+    <img src="{{arq.enderecoArquivo}}" width="120" alt="">
+    {% endfor %}
+</form>
+{% for message in messages %}
+        {{ message }}
+{% endfor %} 
+</body>
+</html>

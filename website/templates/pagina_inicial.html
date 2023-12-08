@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+</head>
+<body>
+<h1>Página Inicial</h1> 
+<form method="post">
+    {%csrf_token%}
+      <button type="submit" name="editarConta">Editar conta</button>  
+      <br>
+      <button type="submit" name="enviarArquivo">Enviar arquivo</button>
+      <br>
+      <button type="submit" name="verbaiArquivo">Ver/Baixar arquivo</button>
+      <br>
+      <button type="submit" name="arqEnviados">Meus arquivos enviados</button>
+</form>    
+</body>
+</html>

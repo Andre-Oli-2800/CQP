@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <style>
+        table, th, td {
+          border:1px solid black;
+        }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivos Enviados</title>
+</head>
+<body>
+    <h1>Arquivos Enviados</h1>
+    
+
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%} 
+        
+        <table style="width:20%">
+            <tr>
+                <tr>
+                    <th>Título</th>
+                    <th>Período histórico</th>
+                    <th>Ano do arquivo</th>        
+                    <th>Visualizar</th>
+                    <th>Baixar</th>
+               
+                </tr>
+
+        {% for arquivo in arquivos %}
+            <td>{{arquivo.titulo}}</td>
+
+            <td>{{arquivo.periodoHistorico}}</td>
+
+            <td>{{arquivo.anoArquivo}}</td>
+
+        <td><button type="submit" name="editar">
+            <a href="../editarArquivo/{{arquivo.id}}">Editar</a>   
+        </button></td>
+
+        <td><button type="submit" name="excluir">
+            <a href="../excluir/{{arquivo.id}}">Excluir</a>
+        </button></td>
+            </tr>
+        {% endfor %} 
+
+    </table>
+    
+        </script>
+        
+    </form>
+{% for message in messages %}
+    {{ message }}
+{% endfor %} 
+</body>
+</html>

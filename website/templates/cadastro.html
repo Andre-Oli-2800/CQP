@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro</h1>  
+    <form method="post">
+        {%csrf_token%}
+          <label for="uname"><b>CPF</b></label>
+          <input type="text" name="cpf">
+          <br>
+
+          <label for="uname"><b>Nome</b></label>
+          <input type="text" name="nome">
+          <br> 
+          
+          <label for="uname"><b>Sobrenome</b></label>
+          <input type="text" name="sobrenome">
+          <br> 
+          
+          <label for="uname"><b>Email</b></label>
+          <input type="text" name="email">
+          <br> 
+          
+          <label for="uname"><b>Sexo</b></label>
+
+          <select name="sexo" id="uname">
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <br> 
+
+          <label for="uname"><b>Data de Nascimento</b></label>
+          <input type="date" name="dtNascimento">
+          <br> 
+
+          <label for="uname"><b>Senha</b></label>
+          <input type="password" name="senha">
+          <br>  
+          <label for="psw"><b>Confirmar Senha</b></label>
+          <input type="password" name="confSenha">
+          <br>  
+          <button type="submit" name="cadastrar">Cadastrar</button>
+          <button type="submit" name="login">Login</button>
+
+          <button type="submit" name="salvar" >Salvar alterações</button>
+
+      </form> 
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %} 
+</body>
+</html>
