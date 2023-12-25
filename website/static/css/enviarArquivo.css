@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    font-family: roboto;
+    background-color: beige;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1{
+    color: rgb(255, 77, 0);
+    background-color: rgb(229, 229, 81);
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.btn-primary{
+    width: 100px;
+    height: 40px;
+    margin: 0 15px; /*Espaçamento botões*/
+    background-color: rgb(220, 220, 25);
+    color: #fff;
+    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
+    border: 1px solid rgb(229, 229, 81);
+    border-radius: 10px;
+    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    font-size: 15px;
+    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    color: rgb(229, 229, 81);
+}
+
+.container{
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+form{
+    background-color: #fff;
+    max-width: 500px; /*Aumentar largura do quadrado*/
+    height: 640px; /*Aumentar altura do quadrado*/
+    padding: 40px;
+    border-radius: 20px;
+}
+
+.input-single{
+    position: relative;
+    margin: 20px 0; 
+}
+
+.input-single label{
+    left: -4;
+    cursor: text;
+}
+
+textarea[name=descArquivo]{
+    resize: none;
+}
+
+.input{
+    width: 100%;
+    padding: 5px;
+    font-size: 17px;
+    outline: 0;
+}
+
+form .input-single .input:focus + .label{
+    margin-top: 0px;
+    top: -50%;
+    z-index: 2;
+    transition: 0.2s; 
+}
+
+input::file-selector-button {
+    width: 140px;
+    height: 40px;
+
+    background-color: rgb(220, 220, 25);
+    color: #fff;
+    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
+    border: 1px solid rgb(229, 229, 81);
+    border-radius: 10px;
+    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    font-size: 15px;
+    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+
+}
+
+input::file-selector-button:hover {
+    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    color: rgb(229, 229, 81);
+
+}
+
+.centraBotao{
+    text-align: center;
+}

@@ -1,37 +1,58 @@
 import os
 import stat
 import subprocess as sp
+from django.db import IntegrityError
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from website.models import Usuario, Arquivo
+from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import logout
+from django.utils.datastructures import MultiValueDictKeyError
+import datetime
+import pandas as pd
+
+
+
+
 
 def cadastro(request):
-    if 'cadastrar' in request.POST:
-        cpf = request.POST.get("cpf")
-        nome = request.POST.get("nome")
-        sobrenome = request.POST.get("sobrenome")
-        email = request.POST.get("email")
-        sexo = request.POST.get("sexo")
-        dataNascimento = request.POST.get("dtNascimento")
-        senha = request.POST.get("senha")
-        confSenha = request.POST.get("confSenha")
-        if cpf == ' ' or nome == '' or sobrenome == '' or email == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
-            messages.error(request,'Preencha todos os campos')
-            return redirect('cadastro')
-        else:
-            if senha == confSenha:
-                Usuario.objects.create(cpf=cpf,nome=nome, sobrenome=sobrenome,
-                                       email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
-                messages.success(request,"Conta criada com sucesso")
-                return redirect('/login') 
-            else:
-                messages.error(request,"As senhas estão diferentes")               
-        return redirect("/cadastro")
-    elif 'login' in request.POST:
-        return redirect('/login')
-    return render(request,'cadastro.html')
+        if 'cadastrar' in request.POST:           
+                cpf = request.POST.get("cpf")
+                nome = request.POST.get("nome")
+                sobrenome = request.POST.get("sobrenome")
+                email = request.POST.get("email")
+                sexo = request.POST.get("sexo")
+                dataNascimento = request.POST.get("dtNascimento")
+                senha = request.POST.get("senha")
+                confSenha = request.POST.get("confSenha")
+                if cpf == ' ' or nome == '' or sobrenome == '' or email == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
+                    messages.error(request,'Preencha todos os campos')
+                    return redirect('cadastro')
+                else:
+                    if senha == confSenha:
+                        try:
+                            senha = make_password(senha)
+                            autenticarUsuario = User(username=email, password=senha)                          
+                            #autenticarUsuario.save()
+                            Usuario.objects.create(cpf=cpf,nome=nome, sobrenome=sobrenome,
+                                                email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
+                            messages.success(request,"Conta criada com sucesso")
+                            return redirect('/login') 
+                        except (IntegrityError):
+                            messages.error(request, 'Já existe um usuário cadastrado com esse CPF')
+                    else:
+                        messages.error(request,"As senhas estão diferentes")               
+                        return redirect("/cadastro")                   
+            
+                return redirect("/cadastro")
+        if 'login' in request.POST:
+            return redirect('/login')
+        return render(request,'cadastro.html')
 
 def login(request):
     if 'login' in request.POST:
@@ -62,9 +83,16 @@ def paginaInicial (request,cpf):
         return redirect('verBaixarArquivos')
     elif 'arqEnviados' in request.POST:
         return redirect('../arquivosEnviados/'+str(cpf))
+    elif 'editarConta' in request.POST:
+        return redirect('../editarPerfil/'+str(cpf))
     return render(request,'pagina_inicial.html')
 
 def editarPerfil(request,cpf):
+    user= Usuario.objects.get(cpf=cpf)
+    dataUsuario = user.dataNascimento
+    dataPanda = pd.to_datetime(dataUsuario)
+    data = str(dataPanda.date())
+    usuario= Usuario.objects.filter(cpf=cpf)
     if 'salvar' in request.POST:
         nome = request.POST.get("nome")
         sobrenome = request.POST.get("sobrenome")
@@ -75,50 +103,152 @@ def editarPerfil(request,cpf):
         confSenha = request.POST.get("confSenha")
         if nome == '' or sobrenome == '' or email == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
             messages.error(request,'Preencha todos os campos')
-            return redirect('cadastro')
+            return redirect('editarPerfil/'+str(cpf))
         else:
             if senha == confSenha:
                 Usuario.objects.filter(cpf=cpf).update(nome=nome, sobrenome=sobrenome,
                                        email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
-                messages.success(request,"Perfil editado com sucesso sucesso")
-                return redirect('/pagina_inicial') 
+                messages.success(request,"Perfil editado com sucesso")
+                return redirect('/editarPerfil/'+str(cpf)) 
+    return render(request,'editarPerfil.html',{'usuario':usuario,'data':data})
 
 def enviarArquivo(request,cpf):
     if request.method == 'POST':
-        arq = Arquivo()
-        arq.titulo = request.POST.get('titulo')
-        arq.enderecoArquivo = request.FILES['enderecoArquivo']
-        arq.periodoHistorico = request.POST.get('periodoHistorico')
-        arq.anoArquivo = request.POST.get('anoArquivo')
-        arq.descArquivo = request.POST.get('descArquivo')
-        arq.cpf = cpf
-        arq.save()
-        messages.success(request,'Arquivo enviado com sucesso')
-    return render(request,'enviarArquivo.html')
+        try:
+            arq = Arquivo()
+            arq.titulo = request.POST.get('titulo')
+            arq.enderecoArquivo = request.FILES['enderecoArquivo']
+            arq.periodoHistorico = request.POST.get('periodoHistorico')
+            arq.anoArquivo = request.POST.get('anoArquivo')
+            arq.descArquivo = request.POST.get('descArquivo')
+            arq.cpf = cpf
+            arq.save()
+            messages.success(request,'Arquivo enviado com sucesso')
+        except MultiValueDictKeyError:
+            messages.error(request,"Escolha um arquivo")
+        except ValueError:
+            messages.error(request, "Digite o ano do arquivo. Caso não saiba, coloque 'desconhecido' ")
+
+    return render(request,'enviarArquivo.html',{'cpf':cpf})
 
 def verBaixarArquivos(request):
     arquivos = Arquivo.objects.all()
     pHistorico = Arquivo.objects.values_list('periodoHistorico', flat=True).distinct()
+    anos = Arquivo.objects.values_list('anoArquivo', flat=True).distinct()
     if 'Pesquisar' in request.POST:
         periodoEscolhido = request.POST.get('periodoHistorico')
+        ano = request.POST.get('ano')
         formato = request.POST.get('formato')
         ordenar = request.POST.get('ordenar')
 
-        if periodoEscolhido != '':
-
+        if periodoEscolhido == '' and ano == '' and ordenar == '':
+            print("TESTEZINHO")
+            arquivos = ''
+        elif periodoEscolhido != '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)       
+        elif ordenar != '' and periodoEscolhido != '' and ano != '':
+            #arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)
+            arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[ano,periodoEscolhido])          
+        elif periodoEscolhido == '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano)
+        elif periodoEscolhido != '' and ano == '' and ordenar == '':
             arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
-        elif ordenar != '':
+        elif ordenar != '' and ano == '' and periodoEscolhido == '':
             arquivos = Arquivo.objects.order_by('titulo') 
-        elif ordenar != '' and periodoEscolhido != '':
-            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido).order_by('titulo')     
-        if formato != '':
-                    arquivos = Arquivo.objects.filter(formato=formato) 
+        elif ordenar != '' and ano == '' and periodoEscolhido != '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido)   
+        elif ordenar != '' and ano != '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano).order_by('titulo')   
+        elif formato != '':
+            arquivos = Arquivo.objects.filter(formato=formato) 
     if 'visualizar' in request.POST:
-        return redirect('visualizarArquivos')
+        periodoEscolhido = request.POST.get('periodoHistorico')
+        ano = request.POST.get('ano')
+        formato = request.POST.get('formato')
+        ordenar = request.POST.get('ordenar')
+        if periodoEscolhido == '' and ano == '' and ordenar == '':
+            arquivos = ''
+        elif periodoEscolhido != '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)       
+        elif ordenar != '' and periodoEscolhido != '' and ano != '':
+            #arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)
+            arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[ano,periodoEscolhido])          
+        elif periodoEscolhido == '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano)
+        elif periodoEscolhido != '' and ano == '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+        elif ordenar != '' and ano == '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.order_by('titulo') 
+        elif ordenar != '' and ano == '' and periodoEscolhido != '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido)   
+        elif ordenar != '' and ano != '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano).order_by('titulo')   
+        elif formato != '':
+            arquivos = Arquivo.objects.filter(formato=formato) 
     elif 'baixar' in request.POST:
-        return redirect('baixarArquivos')
-    return render(request, 'verBaixarArquivos.html', {'arquivos' : arquivos,'pHistorico':pHistorico})
-    
+        periodoEscolhido = request.POST.get('periodoHistorico')
+        ano = request.POST.get('ano')
+        formato = request.POST.get('formato')
+        ordenar = request.POST.get('ordenar')
+        if periodoEscolhido == '' and ano == '' and ordenar == '':
+            print("TESTEZINHO")
+            arquivos = ''
+        elif periodoEscolhido != '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)       
+        elif ordenar != '' and periodoEscolhido != '' and ano != '':
+            #arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)
+            arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[ano,periodoEscolhido])          
+        elif periodoEscolhido == '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano)
+        elif periodoEscolhido != '' and ano == '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+        elif ordenar != '' and ano == '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.order_by('titulo') 
+        elif ordenar != '' and ano == '' and periodoEscolhido != '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido)   
+        elif ordenar != '' and ano != '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano).order_by('titulo')   
+        elif formato != '':
+            arquivos = Arquivo.objects.filter(formato=formato) 
+    elif 'sair' in request.POST:
+         return redirect('sair')
+    elif 'editar' in request.POST:
+         return redirect('../editarPerfil/'+(arquivos.cpf))
+    return render(request, 'verBaixarArquivos.html', {'arquivos' : arquivos,'pHistorico':pHistorico,'anos':anos})
+
+def arquivosEnviados(request,cpf):
+    arquivos = Arquivo.objects.filter(cpf=cpf)
+    pHistorico = Arquivo.objects.filter(cpf=cpf).values_list('periodoHistorico', flat=True).distinct()
+    anos = Arquivo.objects.filter(cpf=cpf).values_list('anoArquivo', flat=True).distinct()
+    nome = Arquivo.objects.filter(cpf=cpf).values_list('titulo', flat=True).distinct()
+    if 'Pesquisar' in request.POST:
+        periodoEscolhido = request.POST.get('periodoHistorico')
+        ano = request.POST.get('ano')
+        formato = request.POST.get('formato')
+        ordenar = request.POST.get('ordenar')
+
+        if periodoEscolhido != '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)
+        
+        elif periodoEscolhido == '' and ano == '' and ordenar == '':
+            arquivos = ''
+        elif ordenar != '' and periodoEscolhido != '' and ano != '':
+            #arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)
+            arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[ano,periodoEscolhido])          
+        elif periodoEscolhido == '' and ano != '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano)
+        elif periodoEscolhido != '' and ano == '' and ordenar == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+        elif ordenar != '' and ano == '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.order_by('titulo') 
+        elif ordenar != '' and ano == '' and periodoEscolhido != '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido)   
+        elif ordenar != '' and ano != '' and periodoEscolhido == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=ano).order_by('titulo')   
+        elif formato != '':
+            arquivos = Arquivo.objects.filter(formato=formato) 
+    return render(request,'arquivosEnviados.html', {'arquivos':arquivos,'pHistorico':pHistorico,'anos':anos,'nome':nome})
+
 def visualizarArquivo(request,arquivo):
     try:
         extensoes = [".pdf", ".txt", ".png", ".jpg", ".gif", ".bmp",".mp3",".mp4",'.JPG']
@@ -151,15 +281,6 @@ def baixarArquivo(request, arquivo):
             messages.error(request,"Arquivo não encontrado")     
             return redirect('verBaixarArquivos')
 
-
-def arquivosEnviados(request,cpf):
-    arquivos = Arquivo.objects.filter(cpf=cpf)
-    if 'Teste' in request.POST:       
-        arquivos = Arquivo.objects.filter()          
-    if 'salvar' in request.POST:
-        return redirect('editarArquivo')
-    return render(request,'arquivosEnviados.html', {'arquivos':arquivos})
-
 def editar(request, id):
     arquivo = Arquivo.objects.filter(id=id)
     
@@ -182,6 +303,7 @@ def excluir(id):
     return redirect('../arquivosEnviados/'+str(cpf)) 
 
 def sair(request):
-        #logout(request)
+        print("Teste")
+        logout(request)
         messages.success(request,"Você saiu do seu perfil")
         return HttpResponseRedirect("/")

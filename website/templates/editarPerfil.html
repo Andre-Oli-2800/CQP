@@ -8,32 +8,33 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
 <body>
+  {% include 'header.html' %} 
   <div class="container">
-    <h1>Cadastro</h1>  
+    <h1>Editar perfil</h1>  
     <form method="post">
         {%csrf_token%}
       <div class="input-group">
         <div class="input-single"> 
+          {% for usua in usuario %}
           <label for="uname"><b>CPF</b></label>
-          <input type="text" name="cpf" class="input" placeholder="CPF">
+          <input type="text" name="cpf" class="input" placeholder="CPF" value="{{usua.cpf}}" disabled="disabled">
         </div>
        
-
         <div class="input-single">   
           <label for="uname"><b>Nome</b></label>
-          <input type="text" name="nome" class="input" placeholder="Nome">
+          <input type="text" name="nome" class="input" placeholder="Nome" value="{{usua.nome}}">
         </div>
      
         
         <div class="input-single">   
           <label for="uname"><b>Sobrenome</b></label>
-          <input type="text" name="sobrenome" class="input" placeholder="Sobrenome">
+          <input type="text" name="sobrenome" class="input" placeholder="Sobrenome" value="{{usua.sobrenome}}">
         </div>
      
         
         <div class="input-single">   
-          <label for="uname"><b>Email</b></label>
-          <input type="text" name="email" class="input" placeholder="Email">
+          <label for="uname"><b>E-mail</b></label>
+          <input type="text" name="email" class="input" placeholder="Email" value="{{usua.email}}">
         </div>
          
           
@@ -49,26 +50,28 @@
 
         <div class="input-single">   
           <label for="uname" ><b>Data de Nascimento</b></label>
-          <input type="date" name="dtNascimento" class="input" size="30">
+
+        
+        <input type="date" name="dtNascimento" class="input" size="30" value="{{data}}">
         </div>
         
 
         <div class="input-single">   
           <label for="uname"><b>Senha</b></label>
-          <input type="password" name="senha" class="input" id="senha-box" placeholder="Senha">
+          <input type="password" name="senha" class="input" id="senha-box" placeholder="Senha" value="{{usua.senha}}">
         </div>
          
         <div class="confSenha">  
         <div class="input-single">   
           <label for="psw"><b>Confirmar Senha</b></label>
-          <input type="password" name="confSenha" class="input" id="confirSenha-box" placeholder=" Senha">
+          <input type="password" name="confSenha" class="input" id="confirSenha-box" placeholder=" Senha" value="{{usua.senha}}">
+          {% endfor %}
         </div>
       </div>
       </div>   
           <br> 
         <div class="botoes"> 
-          <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
-          <button type="submit" name="login" class="btn-primary">Login</button>
+          <button type="submit" name="salvar" class="btn-primary">Salvar</button>
         </div>
         {% for message in messages %}
         <p id="messages" style="text-align:center"><br>     

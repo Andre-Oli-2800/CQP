@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt-br">
     <style>
         table, th, td {
@@ -9,42 +10,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver/baixar arquivos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/baixarVerArquivos.css' %}">
 </head>
 <body>
-    <h1>Ver/baixar arquivos</h1>
-    <form method="post" enctype="multipart/form-data">
-        {%csrf_token%} 
-    <label for="">Filtar por:</label>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Ver/baixar arquivos</h1>
+        <form method="post" enctype="multipart/form-data">
+            {%csrf_token%} 
 
-    <label for=""></label>
-    <select name="periodoHistorico" id="uname">
-        <option value=""></option>
-        {% for pHisto in pHistorico %}
-        <option value="{{pHisto}}">{{pHisto}}</option>
-        {% endfor %}
-    </select>
+            
 
-    <label for="">Ordenar por:</label>
-    <select name="ordenar" id="uname">
-        <option value="Nome"></option>
-        <option value="Nome">Nome</option>
-    </select>
+        <div class="input-group">   
+            <div class="input-single">    
+                <label for="">Filtrar por:</label>
 
-    <label for="">Formato: </label>
-    <input type="text" name="formato">
+                <label for=""></label>
+                <select name="periodoHistorico" id="uname" class="input">
+                    <option value=""></option>
+                    
+                    {% for pHisto in pHistorico %}
+                    <option value="{{pHisto}}"
+                    {% if pHisto == pHisto %} selected {% endif %}
+                    >{{pHisto}}</option>
+                    
+                    {% endfor %}
+                </select>
+            <br> 
+                
+                <label for=""></label>
+                <select name="ano" class="input">
+                    <option value=""></option>
+                    {% for ano in anos %}
+                    <option value="{{ano}} " {% if ano == ano %} selected {% endif %}>{{ano}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <button type="submit" name="Pesquisar">Pesquisar</button>
-    <br>
-    <br>
+            <div class="input-single">
+                <label for="">Ordenar por:</label>
+                <select name="ordenar" id="uname" class="input">
+                    <option value="Nome"></option>
+                    <option value="Nome" selected>Nome</option>
+                </select>
+            </div>
 
-    <table style="width:20%">
+            <div class="input-single">
+                <label for="">Formato: </label>
+                <input type="text" name="formato" class="input">
+            </div>    
+    
+            <div class="input-single">
+            <div class="alinharBotao">
+                <button type="submit" name="Pesquisar" class="btn-primary" >Pesquisar</button>
+            </div>
+            
+            </div>
+        </div> 
+    
+
+    <div class="tabela">
+    <table style="width:20%" class="cenTabela">
         <tr>
             <tr>
-                <th>Título</th>
-                <th>Período histórico</th>
-                <th>Ano do arquivo</th>        
-                <th>Visualizar</th>
-                <th>Baixar</th>
+                <div class="corTabela">
+                    <th>Título</th>
+                    <th>Período histórico</th>
+                    <th>Ano do arquivo</th>        
+                    <th>Visualizar</th>
+                    <th>Baixar</th>
+                </div>
            
             </tr>
 
@@ -55,20 +90,29 @@
 
             <td>{{arquivo.anoArquivo}}</td>
 
-    <td><button type="submit"  name="visualizar">
+    <td>  
+        <button type="submit"  name="visualizar" class="btn-primary">
+      
         <a href="/visualizarArquivo/{{arquivo.enderecoArquivo}}">Visualizar</a>
     </button></td>
 
-    <td><button type="submit" name="baixar">
-        <a href="/baixarArquivo/{{arquivo.enderecoArquivo}}">Baixar</a>
+    <td><button type="submit" name="baixar" class="btn-primary" >
+       <a href="/baixarArquivo/{{arquivo.enderecoArquivo}}">Baixar</a>
       </button></td>
-    </tr>  
+    </tr>
+    
+    <img src="uploads/" alt="" class="prod-size">
+</div>
     {% endfor %}
-
+   
 </table>
-</form>
 {% for message in messages %}
-        {{ message }}
-    {% endfor %}  
+    {{ message }}
+{% endfor %}  
+</form>
+
+
+
+</div>
 </body>
 </html>

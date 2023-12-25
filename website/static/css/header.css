@@ -1,0 +1,48 @@
+
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+header{
+    background: #b87a16; 
+}
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    position: fixed;
+    width: 100%;
+
+    gap: 5em;
+    width: 100%;
+    top: 0;
+}
+main{
+    height: 15vh;
+}
+
+.botao{
+    margin: 0 15px; /*Espaçamento botões*/
+    background-color: red;
+    color: #fff;
+    padding: 10px 40px;/*Mudar tamanho do botão*/
+    border: 1px solid red;
+    border-radius: 10px;
+    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    font-size: 15px;
+    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+}
+
+.botao:hover{
+    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    color: red;
+}
+
+.titulo{
+    left: 2rem;
+    right: 30;
+    color: rgb(255, 255, 0);
+    font-size: 25px;
+}

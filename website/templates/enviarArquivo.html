@@ -1,33 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enviar arquivo</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/enviarArquivo.css' %}">
 </head>
 <body>
+    {% include 'header.html' %} 
+    <div class="container">
+       
     <form method="post" enctype="multipart/form-data">
-        {%csrf_token%}    
-    <h1>Enviar Arquivo</h1>
-    <label> Título: </label>
-    <input type="text" name="titulo">
-    <br>
+        {%csrf_token%} 
+        <h1>Enviar Arquivo</h1> 
+
+    <div class="input-single"> 
+        <label> Título: </label>
+        <input type="text" name="titulo" class="input" id="titulo-box">
+    </div>
+
+    <div class="input-single"> 
     <label> Período histórico: </label>
-    <input type="text" name="periodoHistorico">
-    <br>
+    <input type="text" name="periodoHistorico" class="input" id="periodo-box">
+    </div>
+
+    <div class="input-single"> 
     <label> Ano do arquivo: </label>
-    <input type="text" name="anoArquivo">
-    <br>
+    <input type="text" name="anoArquivo" class="input" id="ano-box">
+    </div>
+
+    <div class="input-single"> 
     <label> Descrição do arquivo: </label>
-    <textarea name="descArquivo" id="" cols="30" rows="5"></textarea>
-    <br>
+    <textarea name="descArquivo" id="" cols="30" rows="5" class="input" id="descricao-box"></textarea>
+    </div>
+
+    <div class="input-single"> 
     <label> Escolha o arquivo que deseja enviar: </label>
-    <input type="file" id="myFile" name="enderecoArquivo" />
-    <br>  
-    <button type="submit" name="Enviar">Enviar</button>
-    </form>
+    <input type="file" id="myFile" name="enderecoArquivo" class="input" id="escolha-box" />
+    </div>
+
+    <div class="centraBotao">
+        <button type="submit" name="Enviar" class="btn-primary">Enviar</button>
+    </div>  
     {% for message in messages %}
+    <p id="messages" style="text-align:center"><br>
         {{ message }}
-    {% endfor %}    
+    {% endfor %}
+    </form>
+        
+</div>
 </body>
 </html>

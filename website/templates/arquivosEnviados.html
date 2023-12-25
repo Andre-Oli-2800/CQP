@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt-br">
     <style>
         table, th, td {
@@ -9,22 +10,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arquivos Enviados</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/arquivosEnviados.css' %}">
 </head>
 <body>
+    {% include 'header.html' %}
+    <div class="container">
     <h1>Arquivos Enviados</h1>
     
 
     <form method="post" enctype="multipart/form-data">
         {%csrf_token%} 
+
+        <div class="input-group">   
+            <div class="input-single"> 
+        <label for="">Filtar por:</label>
+
+    <label for=""></label>
+    <select name="periodoHistorico" id="uname" class="input">
+        <option value=""></option>
+        {% for pHisto in pHistorico %}
+        <option value="{{pHisto}}">{{pHisto}}</option>
+        {% endfor %}
+    </select>
+    <br> 
+
+    <label for=""></label>
+    <select name="ano" class="input">
+        <option value=""></option>
+        {% for ano in anos %}
+        <option value="{{ano}}">{{ano}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="input-single">
+    <label for="">Ordenar por:</label>
+    <select name="ordenar" id="uname" class="input">
+        <option value="Nome"></option>
+        {% for no in nome%}
+        <option value="Nome">{{Nome}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="input-single">
+    <label for="">Formato: </label>
+    <input type="text" name="formato" class="input">
+</div>
+
+<div class="input-single">
+    <div class="alinharBotao">
+        <button type="submit" name="Pesquisar" class="btn-primary">Pesquisar</button>
+    </div>    
+</div>
+</div>
         
-        <table style="width:20%">
+<div class="tabela">
+        <table style="width:20%" class="cenTabela">
             <tr>
                 <tr>
                     <th>Título</th>
                     <th>Período histórico</th>
                     <th>Ano do arquivo</th>        
-                    <th>Visualizar</th>
-                    <th>Baixar</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
                
                 </tr>
 
@@ -35,23 +84,25 @@
 
             <td>{{arquivo.anoArquivo}}</td>
 
-        <td><button type="submit" name="editar">
+        <td><button type="submit" name="editar" class="btn-primary">
             <a href="../editarArquivo/{{arquivo.id}}">Editar</a>   
         </button></td>
 
-        <td><button type="submit" name="excluir">
+        <td><button type="submit" name="excluir" class="btn-primary">
             <a href="../excluir/{{arquivo.id}}">Excluir</a>
         </button></td>
             </tr>
+        </div>
         {% endfor %} 
 
     </table>
     
         </script>
-        
+        {% for message in messages %}
+        {{ message }}
+    {% endfor %}     
     </form>
-{% for message in messages %}
-    {{ message }}
-{% endfor %} 
+</div>
+
 </body>
 </html>

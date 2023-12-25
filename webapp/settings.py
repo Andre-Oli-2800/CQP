@@ -139,3 +139,4 @@ SILENCED_SYSTEM_CHECKS = ['auth.E003', 'auth.W004']
 DATE_FORMAT = '%d/%m/%Y'
 
 DATE_INPUT_FORMATS = ('%d/%m/%Y','%Y-%m-%d')
+
