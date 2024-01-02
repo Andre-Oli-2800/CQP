@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Editar perfil</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
 <body>
   {% include 'header.html' %} 
   <div class="container">
     <h1>Editar perfil</h1>  
-    <form method="post">
+    <form method="post" enctype="multipart/form-data" class="formSite">
         {%csrf_token%}
       <div class="input-group">
         <div class="input-single"> 

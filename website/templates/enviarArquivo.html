@@ -10,10 +10,10 @@
 <body>
     {% include 'header.html' %} 
     <div class="container">
-       
-    <form method="post" enctype="multipart/form-data">
+        <h1>Enviar Arquivo</h1>    
+    <form method="post" enctype="multipart/form-data" class="formSite">
         {%csrf_token%} 
-        <h1>Enviar Arquivo</h1> 
+
 
     <div class="input-single"> 
         <label> Título: </label>

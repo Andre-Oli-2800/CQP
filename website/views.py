@@ -13,12 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
 from django.utils.datastructures import MultiValueDictKeyError
-import datetime
 import pandas as pd
-
-
-
-
 
 def cadastro(request):
         if 'cadastrar' in request.POST:           
@@ -80,7 +75,7 @@ def paginaInicial (request,cpf):
     if 'enviarArquivo' in request.POST:
         return redirect('../enviarArquivo/'+str(cpf))
     elif 'verbaiArquivo' in request.POST:
-        return redirect('verBaixarArquivos')
+        return redirect('../verBaixarArquivos/'+str(cpf))
     elif 'arqEnviados' in request.POST:
         return redirect('../arquivosEnviados/'+str(cpf))
     elif 'editarConta' in request.POST:
@@ -93,7 +88,9 @@ def editarPerfil(request,cpf):
     dataPanda = pd.to_datetime(dataUsuario)
     data = str(dataPanda.date())
     usuario= Usuario.objects.filter(cpf=cpf)
-    if 'salvar' in request.POST:
+    if 'Sair' in request.POST:
+        return redirect('sair')
+    elif 'salvar' in request.POST:
         nome = request.POST.get("nome")
         sobrenome = request.POST.get("sobrenome")
         email = request.POST.get("email")
@@ -110,10 +107,12 @@ def editarPerfil(request,cpf):
                                        email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
                 messages.success(request,"Perfil editado com sucesso")
                 return redirect('/editarPerfil/'+str(cpf)) 
-    return render(request,'editarPerfil.html',{'usuario':usuario,'data':data})
+    return render(request,'editarPerfil.html',{'usuario':usuario,'data':data,'cpf':cpf})
 
 def enviarArquivo(request,cpf):
-    if request.method == 'POST':
+    if 'Sair' in request.POST:
+        return redirect('sair')  
+    elif 'Enviar' in request.POST:  
         try:
             arq = Arquivo()
             arq.titulo = request.POST.get('titulo')
@@ -127,15 +126,17 @@ def enviarArquivo(request,cpf):
         except MultiValueDictKeyError:
             messages.error(request,"Escolha um arquivo")
         except ValueError:
-            messages.error(request, "Digite o ano do arquivo. Caso não saiba, coloque 'desconhecido' ")
-
+            messages.error(request, "Digite o ano do arquivo. Caso não saiba, coloque 'desconhecido' ")  
+        
     return render(request,'enviarArquivo.html',{'cpf':cpf})
 
-def verBaixarArquivos(request):
+def verBaixarArquivos(request,cpf):
     arquivos = Arquivo.objects.all()
     pHistorico = Arquivo.objects.values_list('periodoHistorico', flat=True).distinct()
     anos = Arquivo.objects.values_list('anoArquivo', flat=True).distinct()
-    if 'Pesquisar' in request.POST:
+    if 'Sair' in request.POST:
+        return redirect('sair') 
+    elif 'Pesquisar' in request.POST:
         periodoEscolhido = request.POST.get('periodoHistorico')
         ano = request.POST.get('ano')
         formato = request.POST.get('formato')
@@ -191,7 +192,6 @@ def verBaixarArquivos(request):
         formato = request.POST.get('formato')
         ordenar = request.POST.get('ordenar')
         if periodoEscolhido == '' and ano == '' and ordenar == '':
-            print("TESTEZINHO")
             arquivos = ''
         elif periodoEscolhido != '' and ano != '' and ordenar == '':
             arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=ano)       
@@ -214,14 +214,16 @@ def verBaixarArquivos(request):
          return redirect('sair')
     elif 'editar' in request.POST:
          return redirect('../editarPerfil/'+(arquivos.cpf))
-    return render(request, 'verBaixarArquivos.html', {'arquivos' : arquivos,'pHistorico':pHistorico,'anos':anos})
+    return render(request, 'verBaixarArquivos.html', {'arquivos' : arquivos,'pHistorico':pHistorico,'anos':anos,'cpf':cpf})
 
 def arquivosEnviados(request,cpf):
     arquivos = Arquivo.objects.filter(cpf=cpf)
     pHistorico = Arquivo.objects.filter(cpf=cpf).values_list('periodoHistorico', flat=True).distinct()
     anos = Arquivo.objects.filter(cpf=cpf).values_list('anoArquivo', flat=True).distinct()
     nome = Arquivo.objects.filter(cpf=cpf).values_list('titulo', flat=True).distinct()
-    if 'Pesquisar' in request.POST:
+    if 'Sair' in request.POST:
+        return redirect('sair') 
+    elif 'Pesquisar' in request.POST:
         periodoEscolhido = request.POST.get('periodoHistorico')
         ano = request.POST.get('ano')
         formato = request.POST.get('formato')
@@ -247,7 +249,7 @@ def arquivosEnviados(request,cpf):
             arquivos = Arquivo.objects.filter(anoArquivo=ano).order_by('titulo')   
         elif formato != '':
             arquivos = Arquivo.objects.filter(formato=formato) 
-    return render(request,'arquivosEnviados.html', {'arquivos':arquivos,'pHistorico':pHistorico,'anos':anos,'nome':nome})
+    return render(request,'arquivosEnviados.html', {'arquivos':arquivos,'pHistorico':pHistorico,'anos':anos,'nome':nome,'cpf':cpf})
 
 def visualizarArquivo(request,arquivo):
     try:
@@ -285,14 +287,22 @@ def editar(request, id):
     arquivo = Arquivo.objects.filter(id=id)
     
     if 'salvar' in request.POST:
-        titulo = request.POST.get('titulo')
-        enderecoArquivo = request.FILES['enderecoArquivo']
-        periodoHistorico = request.POST.get('periodoHistorico')
-        anoArquivo = request.POST.get('anoArquivo')
-        descArquivo = request.POST.get('descArquivo')
+        try:
+            titulo = request.POST.get('titulo')
+            enderecoArquivo = request.FILES['enderecoArquivo']
+            periodoHistorico = request.POST.get('periodoHistorico')
+            anoArquivo = request.POST.get('anoArquivo')
+            descArquivo = request.POST.get('descArquivo')
+            arquivo = Arquivo.objects.get(id=id)
+            Arquivo.objects.filter(id=id).update(titulo=titulo,enderecoArquivo=enderecoArquivo,periodoHistorico=periodoHistorico,anoArquivo=anoArquivo,descricao=descArquivo)
+            messages.success(request, "Alterações feitas com sucesso")
+            return redirect('../arquivosEnviados/'+str(arquivo.cpf))
+        except MultiValueDictKeyError:
+            messages.error(request,"Escolha um arquivo")
+        except ValueError:
+            messages.error(request, "Digite o ano do arquivo. Caso não saiba, coloque 'desconhecido' ")  
+    elif 'voltar' in request.POST:
         arquivo = Arquivo.objects.get(id=id)
-        Arquivo.objects.filter(id=id).update(titulo=titulo,enderecoArquivo=enderecoArquivo,periodoHistorico=periodoHistorico,anoArquivo=anoArquivo,descricao=descArquivo)
-        messages.success(request, "Alterações feitas com sucesso")
         return redirect('../arquivosEnviados/'+str(arquivo.cpf))
     return render(request,'editarArquivo.html',{'arquivo':arquivo})
 
@@ -303,7 +313,6 @@ def excluir(id):
     return redirect('../arquivosEnviados/'+str(cpf)) 
 
 def sair(request):
-        print("Teste")
         logout(request)
         messages.success(request,"Você saiu do seu perfil")
         return HttpResponseRedirect("/")

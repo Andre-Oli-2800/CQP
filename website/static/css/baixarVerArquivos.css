@@ -50,7 +50,7 @@ h1{
     margin: 0 auto;
 }
 
-form{
+.formSite{
     background-color: #fff;
     max-width: 1000px; /*Aumentar largura do quadrado*/
     height: 530px; /*Aumentar altura do quadrado*/

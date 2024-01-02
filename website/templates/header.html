@@ -8,24 +8,25 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
 </head>
 <body>
-   
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%} 
     <header>
+        
         <div class="iconeLogin">
             <img src="{% static 'imagens/livro-historia.png' %}">
         </div>
         <div class="titulo">
             <label for="" name="titulo">Estude História</label>
-        </div>    
-        <a href="../editarPerfil">Editar perfil</a>
- 
+        </div>   
+        <a href="../editarPerfil/{{cpf}}" name="editarPerfil">Editar perfil</a>
         <a href="../enviarArquivo/{{cpf}}">Enviar arquivo</a>
-      
-        <a href="../verBaixarArquivos">Ver/Baixar arquivos</a>
-        <a href="../editarArquivo/{{cpf}}" name="editar"> Editar arquivo</a>
+        <a href="../verBaixarArquivos/{{cpf}}">Ver/Baixar arquivos</a>
+        <a href="../arquivosEnviados/{{cpf}}"> Editar arquivo</a>
         
-        <button  class="botao" name="sair"> Sair</button>
+        <button  class="botao" name="Sair"> Sair</button>
     </header>
     
     <main>  </main>
+    </form>  
 </body>
 </html>

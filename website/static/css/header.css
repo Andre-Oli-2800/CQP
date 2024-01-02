@@ -1,13 +1,11 @@
-
 *{
 margin: 0;
 padding: 0;
 box-sizing: border-box;
 }
+
 header{
     background: #b87a16; 
-}
-header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,8 +39,9 @@ main{
 }
 
 .titulo{
-    left: 2rem;
-    right: 30;
+    position: relative;
+
+    right: 4rem;
     color: rgb(255, 255, 0);
     font-size: 25px;
 }
