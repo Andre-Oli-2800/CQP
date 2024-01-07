@@ -1,118 +1,104 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-    <style>
-        table, th, td {
-          border:1px solid black;
-        }
-    </style>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver/baixar arquivos</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/baixarVerArquivos.css' %}">
 </head>
+
 <body>
     {% include 'header.html' %}
     <div class="container">
         <h1>Ver/baixar arquivos</h1>
         <form method="post" enctype="multipart/form-data" class="formSite">
-            {%csrf_token%} 
+            {%csrf_token%}
+            <div class="input-group">
+                <div class="input-single">
+                    <label for="">Filtrar por:</label>
 
-            
-
-        <div class="input-group">   
-            <div class="input-single">    
-                <label for="">Filtrar por:</label>
-
-                <label for=""></label>
-                <select name="periodoHistorico" id="uname" class="input">
-                    <option value=""></option>
-                    
-                    {% for pHisto in pHistorico %}
-                    <option value="{{pHisto}}"
-                    {% if pHisto == pHisto %} selected {% endif %}
-                    >{{pHisto}}</option>
-                    
-                    {% endfor %}
-                </select>
-            <br> 
-                
-                <label for=""></label>
-                <select name="ano" class="input">
-                    <option value=""></option>
-                    {% for ano in anos %}
-                    <option value="{{ano}} " {% if ano == ano %} selected {% endif %}>{{ano}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="input-single">
-                <label for="">Ordenar por:</label>
-                <select name="ordenar" id="uname" class="input">
-                    <option value="Nome"></option>
-                    <option value="Nome" selected>Nome</option>
-                </select>
-            </div>
-
-            <div class="input-single">
-                <label for="">Formato: </label>
-                <input type="text" name="formato" class="input">
-            </div>    
-    
-            <div class="input-single">
-            <div class="alinharBotao">
-                <button type="submit" name="Pesquisar" class="btn-primary" >Pesquisar</button>
-            </div>
-            
-            </div>
-        </div> 
-    
-
-    <div class="tabela">
-    <table style="width:20%" class="cenTabela">
-        <tr>
-            <tr>
-                <div class="corTabela">
-                    <th>Título</th>
-                    <th>Período histórico</th>
-                    <th>Ano do arquivo</th>        
-                    <th>Visualizar</th>
-                    <th>Baixar</th>
+                    <label for=""></label>
+                    <select name="periodoHistorico" id="uname" class="input">
+                        <option value=""></option>
+                        {% for pHisto in pHistorico %}
+                        <option value="{{pHisto}}">{{pHisto}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <label for=""></label>
+                    <select name="ano" class="input" id="_activity">
+                        <option value=""></option>
+                        {% for ano in anos %}
+                        <option value="{{ano.anoArquivo}}">{{ano.anoArquivo}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-           
-            </tr>
 
-            {% for arquivo in arquivos %}
-            <td>{{arquivo.titulo}}</td>
+                <div class="input-single">
+                    <label for="">Ordenar por:</label>
+                    <select name="ordenar" id="uname" class="input">
+                        <option value=""></option>
+                        <option value="Nome">Título</option>
+                    </select>
+                </div>
 
-            <td>{{arquivo.periodoHistorico}}</td>
+                <div class="input-single">
+                    <label for="">Formato: </label>
+                    <input type="text" name="formato" class="input">
+                </div>
 
-            <td>{{arquivo.anoArquivo}}</td>
+                <div class="input-single">
+                    <div class="alinharBotao">
+                        <button type="submit" name="Pesquisar" class="btn-primary">Pesquisar</button>
+                    </div>
+                </div>
+            </div>
 
-    <td>  
-        <button type="submit"  name="visualizar" class="btn-primary">
-      
-        <a href="/visualizarArquivo/{{arquivo.enderecoArquivo}}">Visualizar</a>
-    </button></td>
+            <div class="tabela">
+                <table style="width:20%" class="cenTabela">
+                    <tr>
+                    <tr>
+                        <div class="corTabela">
+                            <th>Título</th>
+                            <th>Período histórico</th>
+                            <th>Ano do arquivo</th>
+                            <th>Descrição</th>
+                            <th>Visualizar</th>
+                            <th>Baixar</th>
+                        </div>
+                    </tr>
+                    {% for arquivo in arquivos %}
+                    <td>{{arquivo.titulo}}</td>
+                    <td>{{arquivo.periodoHistorico}}</td>
+                    <td>{{arquivo.anoArquivo}}</td>
+                    <td><textarea name="" id="" cols="30" rows="3" readonly>{{arquivo.descricao}}</textarea></td>
+                    <td>
+                        <button type="submit" name="visualizar" class="btn-primary">
 
-    <td><button type="submit" name="baixar" class="btn-primary" >
-       <a href="/baixarArquivo/{{arquivo.enderecoArquivo}}">Baixar</a>
-      </button></td>
-    </tr>
-    
-    <img src="uploads/" alt="" class="prod-size">
-</div>
-    {% endfor %}
-   
-</table>
-{% for message in messages %}
-    {{ message }}
-{% endfor %}  
-</form>
+                            <a href="../visualizarArquivo/{{arquivo.enderecoArquivo}}">Visualizar</a>
+                        </button>
+                    </td>
 
-
-
-</div>
+                    <td><button type="submit" name="baixar" class="btn-primary">
+                            <a href="../baixarArquivo/{{arquivo.enderecoArquivo}}">Baixar</a>
+                        </button></td>
+                    </tr>
+            </div>
+            {% endfor %}
+            </table>
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </form>
+    </div>
 </body>
 </html>

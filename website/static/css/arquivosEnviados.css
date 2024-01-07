@@ -21,7 +21,6 @@ body{
 h1{
     color: rgb(255, 77, 0);
     background-color: rgb(229, 229, 81);
-    position: relative;
     text-align: center;
     border-radius: 10px;
 }
@@ -32,7 +31,6 @@ h1{
     margin: 0 15px; /*Espaçamento botões*/
     background-color: #8a5500;
     color: #fff; 
-    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid #8a5500;
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/
@@ -53,9 +51,11 @@ h1{
 .formSite{
     background-color: #fff;
     max-width: 1000px; /*Aumentar largura do quadrado*/
-    height: 530px; /*Aumentar altura do quadrado*/
+    max-height: 570px; /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 20px;
+    overflow: scroll;
+
 }
 
 .input-single{
@@ -137,4 +137,8 @@ a:link {
 
 .alinharBotao{
     margin-top: 11%;
+}
+
+textarea{ 
+    resize: none; 
 }

@@ -10,7 +10,6 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
     font-family: roboto;
     background-color: beige;
     display: flex;
@@ -33,7 +32,6 @@ h1{
     margin: 0 15px; /*Espaçamento botões*/
     background-color: rgb(220, 220, 25);
     color: #fff;
-    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid rgb(229, 229, 81);
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/
@@ -87,10 +85,8 @@ h1{
 }
 
 .input-single label{
-    /*position: absolute;*/
     left: -4;
     bottom: 6px;
-    /*color: #d0cdcd;*/
     cursor: text;
 }
 
@@ -114,4 +110,8 @@ input[type="date"] {
 .confSenha{
     width: 225px; 
     height: 52px;
+}
+
+label{
+    font-weight: bold;
 }

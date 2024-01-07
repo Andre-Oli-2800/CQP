@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar perfil</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
+
 <body>
-  {% include 'header.html' %} 
+  {% include 'header.html' %}
   <div class="container">
-    <h1>Editar perfil</h1>  
+    <h1>Editar perfil</h1>
     <form method="post" enctype="multipart/form-data" class="formSite">
-        {%csrf_token%}
+      {%csrf_token%}
       <div class="input-group">
-        <div class="input-single"> 
+        <div class="input-single">
           {% for usua in usuario %}
-          <label for="uname"><b>CPF</b></label>
-          <input type="text" name="cpf" class="input" placeholder="CPF" value="{{usua.cpf}}" disabled="disabled">
+          <label for="uname">CPF</label>
+          <input type="text" name="cpf" class="input" value="{{usua.cpf}}" disabled="disabled">
         </div>
-       
-        <div class="input-single">   
-          <label for="uname"><b>Nome</b></label>
-          <input type="text" name="nome" class="input" placeholder="Nome" value="{{usua.nome}}">
+
+        <div class="input-single">
+          <label for="uname">Nome</label>
+          <input type="text" name="nome" class="input" value="{{usua.nome}}">
         </div>
-     
-        
-        <div class="input-single">   
-          <label for="uname"><b>Sobrenome</b></label>
-          <input type="text" name="sobrenome" class="input" placeholder="Sobrenome" value="{{usua.sobrenome}}">
+
+
+        <div class="input-single">
+          <label for="uname">Sobrenome</label>
+          <input type="text" name="sobrenome" class="input" value="{{usua.sobrenome}}">
         </div>
-     
-        
-        <div class="input-single">   
-          <label for="uname"><b>E-mail</b></label>
-          <input type="text" name="email" class="input" placeholder="Email" value="{{usua.email}}">
+
+
+        <div class="input-single">
+          <label for="uname">E-mail</label>
+          <input type="text" name="email" class="input" value="{{usua.email}}">
         </div>
-         
-          
-        <div class="input-single">   
-          <label for="uname"><b>Sexo</b></label>
+
+
+        <div class="input-single">
+          <label for="uname">Sexo</label>
           <select name="sexo" id="uname" class="input">
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outro">Outro</option>
           </select>
         </div>
-          
 
-        <div class="input-single">   
-          <label for="uname" ><b>Data de Nascimento</b></label>
 
-        
-        <input type="date" name="dtNascimento" class="input" size="30" value="{{data}}">
+        <div class="input-single">
+          <label for="uname">Data de Nascimento</label>
+
+
+          <input type="date" name="dtNascimento" class="input" size="30" value="{{data}}">
         </div>
-        
 
-        <div class="input-single">   
-          <label for="uname"><b>Senha</b></label>
-          <input type="password" name="senha" class="input" id="senha-box" placeholder="Senha" value="{{usua.senha}}">
+
+        <div class="input-single">
+          <label for="uname">Senha</label>
+          <input type="password" name="senha" class="input" id="senha-box" value="{{usua.senha}}">
         </div>
-         
-        <div class="confSenha">  
-        <div class="input-single">   
-          <label for="psw"><b>Confirmar Senha</b></label>
-          <input type="password" name="confSenha" class="input" id="confirSenha-box" placeholder=" Senha" value="{{usua.senha}}">
-          {% endfor %}
+
+        <div class="confSenha">
+          <div class="input-single">
+            <label for="psw">Confirmar Senha</label>
+            <input type="password" name="confSenha" class="input" id="confirSenha-box" value="{{usua.senha}}">
+            {% endfor %}
+          </div>
         </div>
       </div>
-      </div>   
-          <br> 
-        <div class="botoes"> 
-          <button type="submit" name="salvar" class="btn-primary">Salvar</button>
-        </div>
-        {% for message in messages %}
-        <p id="messages" style="text-align:center"><br>     
-   {{ message }}
-        </p>
-        {% endfor %}
-      </form> 
-     
-    </div> 
+      <br>
+      <div class="botoes">
+        <button type="submit" name="salvar" class="btn-primary">Salvar</button>
+      </div>
+      {% for message in messages %}
+      <p id="messages" style="text-align:center"><br>
+        {{ message }}
+      </p>
+      {% endfor %}
+    </form>
+
+  </div>
 </body>
+
 </html>

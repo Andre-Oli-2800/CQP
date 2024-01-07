@@ -10,7 +10,6 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
     font-family: roboto;
     background-color: beige;
     display: flex;
@@ -33,7 +32,6 @@ h1{
     margin: 0 15px; /*Espaçamento botões*/
     background-color: rgb(220, 220, 25);
     color: #fff;
-    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid rgb(229, 229, 81);
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/
@@ -81,7 +79,7 @@ textarea[name=descArquivo]{
     outline: 0;
 }
 
-form .input-single .input:focus + .label{
+.formSite .input-single .input:focus + .label{
     margin-top: 0px;
     top: -50%;
     z-index: 2;
@@ -91,10 +89,8 @@ form .input-single .input:focus + .label{
 input::file-selector-button {
     width: 140px;
     height: 40px;
-
     background-color: rgb(220, 220, 25);
     color: #fff;
-    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid rgb(229, 229, 81);
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/

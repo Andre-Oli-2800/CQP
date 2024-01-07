@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
+
 <body>
     <div class="container">
-     <h1>
-        
-    Estude História  
-    <div class="iconeLogin">
-        <img src="{% static 'imagens/livro-historia.png' %}">
-    </div>    
-    </h1>
-     
-    <form method="post" >    
-        
-        {%csrf_token%}
-        <div class="input-single">
-            <label for="email-box"><b>E-mail</b></label>
-            <input type="text" name="email" class="input" id="email-box" placeholder="Email">
+        <div class="estudeHistoria">
+            <h1 class="titulo">Estude História
+                <div class="imagem">
+                    <img src="{% static 'imagens/livro-historia.png' %}">
+                </div>
+            </h1>
         </div>
-     
-        
-        <div class="input-single">  
-            <label for="senha-box"><b>Senha</b></label>
-            <input type="password" name="senha" class="input" id="senha-box" placeholder="Senha">
-        </div>
-        <div class="botoes">
-          <button type="submit" class="btn-primary" name="login">Login</button>
-          <button type="submit" class="btn-primary" name="cadastrar">Cadastrar</button>
-        </div> 
-         
-        {% for message in messages %}
-        <p id="messages" style="text-align:center"><br>     
-   {{ message }}
-        </p>
-        {% endfor %}
+
+        <h1>Login</h1>
+        <form method="post">
+            {%csrf_token%}
+            <div class="input-single">
+                <label for="email-box">E-mail</label>
+                <input type="text" name="email" class="input" id="email-box">
+            </div>
+
+            <div class="input-single">
+                <label for="senha-box">Senha</label>
+                <input type="password" name="senha" class="input" id="senha-box">
+            </div>
+            <div class="botoes">
+                <button type="submit" class="btn-primary" name="login">Login</button>
+                <button type="submit" class="btn-primary" name="cadastrar">Cadastrar</button>
+            </div>
+            {% for message in messages %}
+            <p id="messages" style="text-align:center"><br>
+                {{ message }}
+            </p>
+            {% endfor %}
     </div>
-        </form>
-    
-</div>    
+    </form>
+    </div>
 </body>
+
 </html>

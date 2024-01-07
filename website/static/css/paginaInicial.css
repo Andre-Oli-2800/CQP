@@ -10,7 +10,6 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
     font-family: roboto;
     background-color: beige;
     display: flex;
@@ -21,7 +20,6 @@ body{
 h1{
     background-color: rgb(229, 229, 81);
     color: rgb(255, 77, 0);
-
     position: relative;
     text-align: center;
     border-radius: 10px;
@@ -41,11 +39,10 @@ form{
     margin: 0 15px; /*Espaçamento botões*/
     background-color: rgb(220, 220, 25);
     color: #fff;
-    /*padding: 70px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid rgb(229, 229, 81);
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/
-    font-size: 15px;
+    font-size: 20px;
     transition: all .3s ease;/*Tempo transição mudar cor botão*/
 }
 
@@ -61,13 +58,11 @@ form{
 
 
 .input-single{
-    
     display: block;
     position: relative;
     margin: 20px 0;   
     display: flex;
     flex-direction: column;
-    
 }
 
 .input-group{

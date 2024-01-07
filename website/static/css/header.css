@@ -12,11 +12,11 @@ header{
     height: 8vh;
     position: fixed;
     width: 100%;
-
     gap: 5em;
     width: 100%;
     top: 0;
 }
+
 main{
     height: 15vh;
 }
@@ -40,8 +40,18 @@ main{
 
 .titulo{
     position: relative;
-
+    font-family: "Times New Roman";
     right: 4rem;
     color: rgb(255, 255, 0);
-    font-size: 25px;
+    font-size: 30px;
 }
+
+a:link {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #fff;
+}
+

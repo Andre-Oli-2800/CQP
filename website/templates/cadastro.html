@@ -1,82 +1,85 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
+
 <body>
   <div class="container">
-    <h1>Cadastro</h1>  
+    <h1>Cadastro</h1>
     <form method="post" class="formSite">
-        {%csrf_token%}
+      {%csrf_token%}
       <div class="input-group">
-        <div class="input-single"> 
-          <label for="uname"><b>CPF</b></label>
-          <input type="text" name="cpf" class="input" placeholder="CPF">
+        <div class="input-single">
+          <label for="uname">CPF</label>
+          <input type="text" name="cpf" class="input">
         </div>
-       
 
-        <div class="input-single">   
-          <label for="uname"><b>Nome</b></label>
-          <input type="text" name="nome" class="input" placeholder="Nome">
+
+        <div class="input-single">
+          <label for="uname">Nome</label>
+          <input type="text" name="nome" class="input">
         </div>
-     
-        
-        <div class="input-single">   
-          <label for="uname"><b>Sobrenome</b></label>
-          <input type="text" name="sobrenome" class="input" placeholder="Sobrenome">
+
+
+        <div class="input-single">
+          <label for="uname">Sobrenome</label>
+          <input type="text" name="sobrenome" class="input">
         </div>
-     
-        
-        <div class="input-single">   
-          <label for="uname"><b>Email</b></label>
-          <input type="text" name="email" class="input" placeholder="Email">
+
+
+        <div class="input-single">
+          <label for="uname">Email</label>
+          <input type="text" name="email" class="input">
         </div>
-         
-          
-        <div class="input-single">   
-          <label for="uname"><b>Sexo</b></label>
+
+
+        <div class="input-single">
+          <label for="uname">Sexo</label>
           <select name="sexo" id="uname" class="input">
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outro">Outro</option>
           </select>
         </div>
-          
 
-        <div class="input-single">   
-          <label for="uname" ><b>Data de Nascimento</b></label>
+
+        <div class="input-single">
+          <label for="uname">Data de Nascimento</label>
           <input type="date" name="dtNascimento" class="input" size="30">
         </div>
-        
 
-        <div class="input-single">   
-          <label for="uname"><b>Senha</b></label>
-          <input type="password" name="senha" class="input" id="senha-box" placeholder="Senha">
+
+        <div class="input-single">
+          <label for="uname">Senha</label>
+          <input type="password" name="senha" class="input" id="senha-box">
         </div>
-         
-        <div class="confSenha">  
-        <div class="input-single">   
-          <label for="psw"><b>Confirmar Senha</b></label>
-          <input type="password" name="confSenha" class="input" id="confirSenha-box" placeholder=" Senha">
+
+        <div class="confSenha">
+          <div class="input-single">
+            <label for="psw">Confirmar Senha</label>
+            <input type="password" name="confSenha" class="input" id="confirSenha-box">
+          </div>
         </div>
       </div>
-      </div>   
-          <br> 
-        <div class="botoes"> 
-          <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
-          <button type="submit" name="login" class="btn-primary">Login</button>
-        </div>
-        {% for message in messages %}
-        <p id="messages" style="text-align:center"><br>     
-   {{ message }}
-        </p>
-        {% endfor %}
-      </form> 
-     
-    </div> 
+      <br>
+      <div class="botoes">
+        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
+        <button type="submit" name="login" class="btn-primary">Login</button>
+      </div>
+      {% for message in messages %}
+      <p id="messages" style="text-align:center"><br>
+        {{ message }}
+      </p>
+      {% endfor %}
+    </form>
+
+  </div>
 </body>
+
 </html>

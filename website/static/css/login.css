@@ -1,16 +1,15 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     width: 100%;
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
     font-family: roboto;
     background-color: beige;
     display: flex;
@@ -18,78 +17,95 @@ body{
     justify-content: center;
 }
 
-h1{
+h1 {
     color: rgb(255, 77, 0);
-    background-color: rgb(229, 229, 81);
+    background-color: #8a5500;
     position: relative;
     text-align: center;
     border-radius: 10px;
 }
 
-.btn-primary{
+.btn-primary {
     width: 100px;
     height: 40px;
-    margin: 0 15px; /*Espaçamento botões*/
+    margin: 0 15px;
+    /*Espaçamento botões*/
     background-color: rgb(220, 220, 25);
     color: #fff;
-    /*padding: 10px 40px;*//*Mudar tamanho do botão*/
     border: 1px solid rgb(229, 229, 81);
     border-radius: 10px;
-    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    cursor: pointer;
+    /*Mudar para mãozinha no mouse*/
     font-size: 15px;
-    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+    transition: all .3s ease;
+    /*Tempo transição mudar cor botão*/
 }
 
 .btn-primary:hover {
-    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    background-color: #fff;
+    /*Mudar a cor quando passar a seta no mouse*/
     color: rgb(229, 229, 81);
 }
 
-.container{
+.container {
     max-width: 1280px;
     margin: 0 auto;
 }
 
-form{
+form {
     background-color: #fff;
-    max-width: 500px; /*Aumentar largura do quadrado*/
-    height: 330px; /*Aumentar altura do quadrado*/
+    max-width: 500px;
+    /*Aumentar largura do quadrado*/
+    height: 330px;
+    /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 20px;
 }
 
-.input-single{
+.input-single {
     position: relative;
-    margin: 20px 0; 
+    margin: 20px 0;
+
 }
 
-.input-single label{
+.input-single label {
     left: -4;
     cursor: text;
 }
 
-.input{
+.input {
     width: 100%;
     padding: 5px;
     font-size: 17px;
     outline: 0;
 }
 
-form .input-single .input:focus + .label{
+form .input-single .input:focus+.label {
     margin-top: 0px;
     top: -50%;
     z-index: 2;
-    transition: 0.2s; 
+    transition: 0.2s;
 }
 
 
-.messages{
+.messages {
     background-color: red;
     text-align: center;
     color: red;
     font-size: 30;
 }
 
-.botoes{
+.botoes {
     text-align: center;
+}
+
+.estudeHistoria {
+    width: 357px;
+    position: fixed;
+    top: 30px;
+    font-family: "Times New Roman";
+}
+
+label {
+    font-weight: bold;
 }
