@@ -19,6 +19,5 @@ class Arquivo(models.Model):
     anoArquivo = models.IntegerField()
     descricao = models.TextField()
     cpf = models.CharField(max_length=11)
-    #class Meta:
-    #    db_table = 'arquivo'
+
 

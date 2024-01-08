@@ -12,7 +12,7 @@ body{
     background-size: cover;
 
     font-family: roboto;
-    background-color: beige;
+    background-color: #f3f3d1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,14 +96,6 @@ form .input-single .input:focus + .label{
     transition: 0.2s; 
 }
 
-
-.messages{
-    background-color: red;
-    text-align: center;
-    color: red;
-    font-size: 30;
-}
-
 .botoes{
     text-align: center;
 }
@@ -141,4 +133,8 @@ a:link {
 
 textarea{ 
     resize: none; 
+}
+
+label {
+    font-weight: bold;
 }

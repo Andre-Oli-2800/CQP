@@ -11,7 +11,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     font-family: roboto;
-    background-color: beige;
+    background-color: #f3f3d1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,4 +70,24 @@ form{
     flex-wrap: wrap;
     justify-content: space-between;
 
+}
+
+.btnSair{
+    margin: 0 15px; /*Espaçamento botões*/
+    background-color: red;
+    color: #fff;
+    padding: 10px 40px;/*Mudar tamanho do botão*/
+    border: 1px solid red;
+    border-radius: 10px;
+    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    font-size: 15px;
+    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.btnSair:hover{
+    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    color: red;
 }

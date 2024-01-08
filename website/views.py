@@ -1,6 +1,5 @@
 import os
 import stat
-import subprocess as sp
 from django.db import IntegrityError
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, HttpResponseRedirect
@@ -8,17 +7,11 @@ from django.shortcuts import redirect, render
 from website.models import Usuario, Arquivo
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import logout
 from django.utils.datastructures import MultiValueDictKeyError
 import pandas as pd
-from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
-
-
-
 
 def cadastro(request):
         if 'cadastrar' in request.POST:           
@@ -37,8 +30,8 @@ def cadastro(request):
                     if senha == confSenha:
                         try:
                             senha = make_password(senha)
-                            autenticarUsuario = User(username=email, password=senha)                          
-                            #autenticarUsuario.save()
+                            autenticarUsuario = User(username=nome, password=senha)    
+                            autenticarUsuario.save()                        
                             Usuario.objects.create(cpf=cpf,nome=nome, sobrenome=sobrenome,
                                                 email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
                             messages.success(request,"Conta criada com sucesso")
@@ -59,17 +52,19 @@ def login(request):
         try:
             email = request.POST.get("email")
             senha = request.POST.get("senha")
-            usuarioExistente = Usuario.objects.filter(email=email,senha=senha).exists()
-            dadosUsuario = Usuario.objects.get(email=email)
-            cpf = dadosUsuario.cpf
+            usuario = Usuario.objects.get(email=email)
+            user = User.objects.get(username= usuario.nome)           
             if email == '' or senha == '':
                 messages.error(request, 'Preencha todos os campos')    
             else:
-                if usuarioExistente != False:
-                    return redirect('/pagina_inicial/'+str(cpf))
-                else:
-                    messages.error(request, "Email/senha inválido(s)") 
-                    return redirect('login')                          
+                if usuario:
+                    checar_senha=check_password(senha, user.password)
+                    if checar_senha:
+                        cpf = usuario.cpf
+                        return redirect('/pagina_inicial/'+str(cpf))
+                    else:
+                        messages.error(request, "Email/senha inválido(s)") 
+                        return redirect('login')                          
         except (Usuario.DoesNotExist):   
             messages.error(request, "Email/senha inválido(s)")
             return redirect('login')  
@@ -77,10 +72,11 @@ def login(request):
         return redirect('/cadastro')
     return render(request,"login.html")
 
-#@login_required(login_url='login')
 def paginaInicial (request,cpf):
     try:
-        if 'enviarArquivo' in request.POST:
+        if "sair" in request.POST:
+            return redirect('sair')
+        elif 'enviarArquivo' in request.POST:
             return redirect('../enviarArquivo/'+str(cpf))
         elif 'verbaiArquivo' in request.POST:
             return redirect('../verBaixarArquivos/'+str(cpf))
@@ -141,10 +137,8 @@ def enviarArquivo(request,cpf):
             return redirect('../enviarArquivo/'+str(cpf))
     return render(request,'enviarArquivo.html',{'cpf':cpf})
 
-def verBaixarArquivos(request,cpf): 
- 
+def verBaixarArquivos(request,cpf):  
     arquivos = Arquivo.objects.all()
-    
     arqs = Arquivo.objects.values_list('anoArquivo', flat=True).distinct()
     pHistorico = Arquivo.objects.values_list('periodoHistorico', flat=True).distinct()
     anos = Arquivo.objects.raw("SELECT id,titulo,periodoHistorico,anoArquivo,descricao FROM site.website_arquivo GROUP BY anoArquivo") 
@@ -154,32 +148,79 @@ def verBaixarArquivos(request,cpf):
         periodoEscolhido = request.POST.get('periodoHistorico')
         anoSelecionado = request.POST.get('ano')
         formato = request.POST.get('formato')
-        ordenar = request.POST.get('ordenar')       
-        if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato != '':   
+        ordenar = request.POST.get('ordenar') 
+        if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato == '':
+            arquivos = ''
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado)
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.order_by('titulo') 
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato != '':   
             arquivos = []
             arquivosExibidos = Arquivo.objects.all()
             for arquivo in arquivosExibidos:
                 nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
                 if extensao == formato:
                     arquivos.append(arquivo)
-        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar == '':
-            arquivos = ''
-        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=anoSelecionado)       
-        elif ordenar != '' and periodoEscolhido != '' and anoSelecionado != '':
+        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=anoSelecionado)
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido) 
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato != '': #Testar  
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado).order_by('titulo')  
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.filter(anoArquivo=anoSelecionado)
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.order_by('titulo')  
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar != '' and formato != '':#Testar
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s order by titulo',[anoSelecionado])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where periodoHistorico order by titulo',[periodoEscolhido])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)    
+        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar == '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico',[anoSelecionado,periodoEscolhido])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo) 
+        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar != '' and formato == '':
             arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[anoSelecionado,periodoEscolhido])          
-        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado)
-        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
-        elif ordenar != '' and anoSelecionado == '' and periodoEscolhido == '':
-            arquivos = Arquivo.objects.order_by('titulo') 
-        elif ordenar != '' and anoSelecionado == '' and periodoEscolhido != '':
-            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido)   
-        elif ordenar != '' and anoSelecionado != '' and periodoEscolhido == '':
-            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado).order_by('titulo')   
-        elif formato != '':          
-            print('teste')
+        elif  periodoEscolhido != '' and anoSelecionado != '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[anoSelecionado,periodoEscolhido])          
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
     if 'sair' in request.POST:
          return redirect('sair')
     return render(request, 'verBaixarArquivos.html', {'arquivos' : arquivos,'pHistorico':pHistorico,'anos':anos,'cpf':cpf})
@@ -197,29 +238,78 @@ def arquivosEnviados(request,cpf):
         anoSelecionado = request.POST.get('ano')
         formato = request.POST.get('formato')
         ordenar = request.POST.get('ordenar')
-        if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato != '':   
+        if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato == '':
+            arquivos = ''
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado)
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.order_by('titulo') 
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato != '':   
             arquivos = []
-            arquivosExibidos = Arquivo.objects.all()
+            arquivosExibidos = Arquivo.objects.filter(cpf=cpf)
             for arquivo in arquivosExibidos:
                 nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
                 if extensao == formato:
                     arquivos.append(arquivo)
-        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar == '':
-            arquivos = ''
-        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=anoSelecionado,cpf=cpf)       
-        elif ordenar != '' and periodoEscolhido != '' and anoSelecionado != '':
+        elif periodoEscolhido != '' and anoSelecionado != '' and ordenar == '' and formato == '':
+            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,anoArquivo=anoSelecionado)
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido) 
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato != '': #Testar  
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar != '' and formato == '':
+            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado).order_by('titulo')  
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.filter(anoArquivo=anoSelecionado)
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado == '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.order_by('titulo')  
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar != '' and formato != '':#Testar
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s order by titulo',[anoSelecionado])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)
+        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where periodoHistorico order by titulo',[periodoEscolhido])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)    
+        elif  periodoEscolhido != '' and anoSelecionado != '' and ordenar == '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico',[anoSelecionado,periodoEscolhido])              
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo) 
+        elif  periodoEscolhido != '' and anoSelecionado != '' and ordenar != '' and formato == '':
             arquivos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[anoSelecionado,periodoEscolhido])          
-        elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado,cpf=cpf)
-        elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '':
-            arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido,cpf=cpf)
-        elif ordenar != '' and anoSelecionado == '' and periodoEscolhido == '':
-            arquivos = Arquivo.objects.order_by('titulo').filter(cpf=cpf) 
-        elif ordenar != '' and anoSelecionado == '' and periodoEscolhido != '':
-            arquivos = Arquivo.objects.order_by('titulo').filter(periodoHistorico=periodoEscolhido,cpf=cpf)   
-        elif ordenar != '' and anoSelecionado != '' and periodoEscolhido == '':
-            arquivos = Arquivo.objects.filter(anoArquivo=anoSelecionado,cpf=cpf).order_by('titulo')   
+        elif  periodoEscolhido != '' and anoSelecionado != '' and ordenar != '' and formato != '':
+            arquivos = []
+            arquivosExibidos = Arquivo.objects.raw('select * from website_arquivo where anoArquivo = %s and periodoHistorico = %s order by titulo',[anoSelecionado,periodoEscolhido])          
+            for arquivo in arquivosExibidos:
+                nomeArquivo, extensao = os.path.splitext(str(arquivo.enderecoArquivo))
+                if extensao == formato:
+                    arquivos.append(arquivo)  
     return render(request,'arquivosEnviados.html', {'arquivos':arquivos,'pHistorico':pHistorico,'anos':anos,'nome':nome,'cpf':cpf})
 
 def visualizarArquivo(request,arquivo):
@@ -301,6 +391,6 @@ def excluir(request, id):
     return redirect('../arquivosEnviados/'+str(cpf)) 
 
 def sair(request):
-        logout(request)
-        messages.success(request,"Você saiu do seu perfil")
-        return HttpResponseRedirect("/")
+    logout(request)
+    messages.success(request,"Você saiu do seu perfil")
+    return HttpResponseRedirect("/")

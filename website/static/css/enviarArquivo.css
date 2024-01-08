@@ -11,7 +11,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     font-family: roboto;
-    background-color: beige;
+    background-color: #f3f3d1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,4 +107,8 @@ input::file-selector-button:hover {
 
 .centraBotao{
     text-align: center;
+}
+
+label {
+    font-weight: bold;
 }

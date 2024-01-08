@@ -19,13 +19,12 @@
 <body>
     {% include 'header.html' %}
     <div class="container">
-        <h1>Ver/baixar arquivos</h1>
+        <h1>Ver/Baixar Arquivos</h1>
         <form method="post" enctype="multipart/form-data" class="formSite">
             {%csrf_token%}
             <div class="input-group">
                 <div class="input-single">
                     <label for="">Filtrar por:</label>
-
                     <label for=""></label>
                     <select name="periodoHistorico" id="uname" class="input">
                         <option value=""></option>
@@ -53,7 +52,7 @@
 
                 <div class="input-single">
                     <label for="">Formato: </label>
-                    <input type="text" name="formato" class="input">
+                    <input type="text" name="formato" class="input" placeholder="Exemplo: .jpg">
                 </div>
 
                 <div class="input-single">
