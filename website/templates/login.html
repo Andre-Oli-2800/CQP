@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
-
 <body>
     <div class="container">
         <div class="estudeHistoria">
@@ -18,7 +16,6 @@
                 </div>
             </h1>
         </div>
-
         <h1>Login</h1>
         <form method="post">
             {%csrf_token%}
@@ -26,7 +23,6 @@
                 <label for="email-box">E-mail</label>
                 <input type="text" name="email" class="input" id="email-box">
             </div>
-
             <div class="input-single">
                 <label for="senha-box">Senha</label>
                 <input type="password" name="senha" class="input" id="senha-box">
@@ -44,5 +40,4 @@
     </form>
     </div>
 </body>
-
 </html>

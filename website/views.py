@@ -12,6 +12,7 @@ from django.contrib.auth import logout
 from django.utils.datastructures import MultiValueDictKeyError
 import pandas as pd
 from django.core.files.storage import FileSystemStorage
+from django.db.utils import OperationalError
 
 def cadastro(request):
         if 'cadastrar' in request.POST:           
@@ -28,21 +29,18 @@ def cadastro(request):
                     return redirect('cadastro')
                 else:
                     if senha == confSenha:
-                        try:
-                            senha = make_password(senha)
-                            autenticarUsuario = User(username=nome, password=senha)    
-                            autenticarUsuario.save()                        
-                            Usuario.objects.create(cpf=cpf,nome=nome, sobrenome=sobrenome,
-                                                email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
-                            messages.success(request,"Conta criada com sucesso")
-                            return redirect('/login') 
-                        except (IntegrityError):
-                            messages.error(request, 'Já existe um usuário cadastrado com esse CPF')
+                                try:
+                                    senha = make_password(senha) 
+                                    usuarioCriado = Usuario.objects.create(cpf=cpf,nome=nome,sobrenome=sobrenome,email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)                      
+                                    autenticarUsuario = User(username=email, password=senha)    
+                                    autenticarUsuario.save() 
+                                    messages.success(request,"Conta criada com sucesso")
+                                    return redirect('/login') 
+                                except (IntegrityError):
+                                    messages.error(request, 'Já existe um usuário cadastrado com esse CPF')
                     else:
                         messages.error(request,"As senhas estão diferentes")               
                         return redirect("/cadastro")                   
-            
-                return redirect("/cadastro")
         if 'login' in request.POST:
             return redirect('/login')
         return render(request,'cadastro.html')
@@ -53,7 +51,7 @@ def login(request):
             email = request.POST.get("email")
             senha = request.POST.get("senha")
             usuario = Usuario.objects.get(email=email)
-            user = User.objects.get(username= usuario.nome)           
+            user = User.objects.get(username= usuario.email)           
             if email == '' or senha == '':
                 messages.error(request, 'Preencha todos os campos')    
             else:
@@ -68,6 +66,9 @@ def login(request):
         except (Usuario.DoesNotExist):   
             messages.error(request, "Email/senha inválido(s)")
             return redirect('login')  
+        except (OperationalError):
+            messages.error(request, "Email/senha inválido(s)")
+            return redirect('login')    
     elif 'cadastrar' in request.POST:
         return redirect('/cadastro')
     return render(request,"login.html")
@@ -150,7 +151,7 @@ def verBaixarArquivos(request,cpf):
         formato = request.POST.get('formato')
         ordenar = request.POST.get('ordenar') 
         if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato == '':
-            arquivos = ''
+            arquivos = Arquivo.objects.all()
         elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato == '':
             arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
         elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato == '':
@@ -239,7 +240,7 @@ def arquivosEnviados(request,cpf):
         formato = request.POST.get('formato')
         ordenar = request.POST.get('ordenar')
         if periodoEscolhido == '' and anoSelecionado == '' and ordenar == '' and formato == '':
-            arquivos = ''
+            arquivos = Arquivo.objects.filter(cpf=cpf)
         elif periodoEscolhido != '' and anoSelecionado == '' and ordenar == '' and formato == '':
             arquivos = Arquivo.objects.filter(periodoHistorico=periodoEscolhido)
         elif periodoEscolhido == '' and anoSelecionado != '' and ordenar == '' and formato == '':
@@ -314,7 +315,7 @@ def arquivosEnviados(request,cpf):
 
 def visualizarArquivo(request,arquivo):
     try:
-        extensoes = [".pdf", ".txt", ".png", ".jpg", ".gif", ".bmp",".mp3",".mp4",'.JPG']
+        extensoes = [".pdf", ".txt", ".png", ".jpg", ".gif", ".bmp",".mp3",".mp4",'.JPG',"webp",".jpeg"]
         if arquivo.endswith(tuple(extensoes)):
             diretorio_arquivo = os.path.join(settings.MEDIA_ROOT, arquivo)
             arquivo = open(diretorio_arquivo, 'rb') 

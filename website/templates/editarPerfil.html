@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar perfil</title>
   <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
-
 <body>
   {% include 'header.html' %}
   <div class="container">
@@ -21,25 +19,18 @@
           <label for="uname">CPF</label>
           <input type="text" name="cpf" class="input" value="{{usua.cpf}}" disabled="disabled">
         </div>
-
         <div class="input-single">
           <label for="uname">Nome</label>
           <input type="text" name="nome" class="input" value="{{usua.nome}}">
         </div>
-
-
         <div class="input-single">
           <label for="uname">Sobrenome</label>
           <input type="text" name="sobrenome" class="input" value="{{usua.sobrenome}}">
         </div>
-
-
         <div class="input-single">
           <label for="uname">E-mail</label>
           <input type="text" name="email" class="input" value="{{usua.email}}">
         </div>
-
-
         <div class="input-single">
           <label for="uname">Sexo</label>
           <select name="sexo" id="uname" class="input">
@@ -48,21 +39,14 @@
             <option value="Outro">Outro</option>
           </select>
         </div>
-
-
         <div class="input-single">
           <label for="uname">Data de Nascimento</label>
-
-
           <input type="date" name="dtNascimento" class="input" size="30" value="{{data}}">
         </div>
-
-
         <div class="input-single">
           <label for="uname">Senha</label>
           <input type="password" name="senha" class="input" id="senha-box" value="{{usua.senha}}">
         </div>
-
         <div class="confSenha">
           <div class="input-single">
             <label for="psw">Confirmar Senha</label>
@@ -81,8 +65,6 @@
       </p>
       {% endfor %}
     </form>
-
   </div>
 </body>
-
 </html>

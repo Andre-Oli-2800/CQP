@@ -1,7 +1,7 @@
 from django.db import models
  
 class Usuario(models.Model):
-    cpf = models.IntegerField(primary_key=True)
+    cpf = models.BigIntegerField(primary_key=True)
     nome = models.CharField(max_length=30)
     sobrenome = models.CharField(max_length=30)
     email = models.EmailField()
