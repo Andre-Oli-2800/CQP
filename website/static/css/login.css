@@ -11,18 +11,36 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     font-family: roboto;
-    background-color: #f3f3d1;
+    background-color: rgb(100, 100, 255);
     display: flex;
     align-items: center;
     justify-content: center;
+
+    box-shadow: 5px 10px;
+
+}
+
+.titulo{
+    color: rgb(255, 247, 0);;
+    float: left;
+
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
+
+
+    border-radius: 10px;
+    text-align: center;
+    font-size: 40px Arial;
 }
 
 h1 {
-    color: rgb(255, 77, 0);
-    background-color: rgb(220, 220, 25);
-    position: relative;
+    color: white;
     text-align: center;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
 }
 
 .btn-primary {
@@ -30,9 +48,9 @@ h1 {
     height: 40px;
     margin: 0 15px;
     /*Espaçamento botões*/
-    background-color: rgb(220, 220, 25);
+    background-color: blue;
     color: #fff;
-    border: 1px solid rgb(229, 229, 81);
+    border: 1px solid blue;
     border-radius: 10px;
     cursor: pointer;
     /*Mudar para mãozinha no mouse*/
@@ -44,7 +62,7 @@ h1 {
 .btn-primary:hover {
     background-color: #fff;
     /*Mudar a cor quando passar a seta no mouse*/
-    color: rgb(229, 229, 81);
+    color: blue;
 }
 
 .container {
@@ -89,6 +107,8 @@ form .input-single .input:focus+.label {
 
 .botoes {
     text-align: center;
+    /*top: 25px;
+    position: relative;*/
 }
 
 .estudeHistoria {

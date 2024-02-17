@@ -5,19 +5,66 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=30)
     sobrenome = models.CharField(max_length=30)
     email = models.EmailField()
+    telefone = models.BigIntegerField()
+    celular = models.BigIntegerField()
     sexo = models.CharField(max_length=15)
     dataNascimento = models.DateField()
     senha = models.CharField(max_length=50)
     class Meta:
-        db_table = 'cadastro'
+        db_table = 'usuario'
+
+class Cliente(models.Model):
+    cpf = models.BigIntegerField(primary_key=True)
+    nome = models.CharField(max_length=30)
+    sobrenome = models.CharField(max_length=30)
+    email = models.EmailField()
+    telefone = models.BigIntegerField()
+    celular = models.BigIntegerField()
+    endereco = models.CharField(max_length=200)
+    cidade = models.CharField(max_length=20)
+    sexo = models.CharField(max_length=15)
+    dataNascimento = models.DateField()
+    class Meta:
+        db_table = 'cliente'
         
-class Arquivo(models.Model):
+class Fornecedor(models.Model):
+    cnpj = models.BigAutoField(primary_key=True)
+    nome = models.CharField(max_length=100)
+    ramo = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    telefone = models.BigIntegerField()
+    endereco = models.CharField(max_length=255)
+    cidade = models.CharField(max_length=50)
+    estado = models.CharField(max_length=30)
+    class Meta:
+        db_table='fornecedor'
+
+class Produto(models.Model):
     id = models.AutoField(primary_key=True)
-    titulo = models.CharField(max_length=100)
-    enderecoArquivo = models.FileField(upload_to="", null=True, blank=True)
-    periodoHistorico = models.CharField(max_length=100)
-    anoArquivo = models.IntegerField()
+    nome = models.CharField(max_length=100)
+    marca = models.CharField(max_length=50)
+    peso = models.IntegerField
     descricao = models.TextField()
-    cpf = models.CharField(max_length=11)
+    class Meta:
+        db_table = 'produto'
+
+class comprarProd(models.Model):
+    id = models.AutoField(primary_key=True)
+    cpfCliente = models.ForeignKey('Cliente',on_delete=models.CASCADE)
+    idPrduto = models.ForeignKey('Produto',on_delete=models.CASCADE)
+    quantProd = models.IntegerField()
+    fabricacao = models.DateField()
+    validade = models.DateField()
+    class Meta:
+        db_table = 'clienteProd'
+
+class loteProd(models.Model):
+    id = models.AutoField(primary_key=True)
+    idProduto = models.ForeignKey('Produto',on_delete=models.CASCADE)
+    quanti = models.IntegerField()
+    fabri = models.DateField()
+    vali = models.DateField()
+    class Meta:
+        db_table = 'loteProd'
 
 

@@ -11,15 +11,14 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     font-family: roboto;
-    background-color: #f3f3d1;
+    background-color: rgb(100, 100, 255);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 h1{
-    background-color: rgb(229, 229, 81);
-    color: rgb(255, 77, 0);
+    color: white;
     position: relative;
     text-align: center;
     border-radius: 10px;
@@ -27,7 +26,7 @@ h1{
 
 form{
     background-color: #ffffff;
-    max-width: 700px; /*Aumentar largura do quadrado*/
+    width: 1000px; /*Aumentar largura do quadrado Tava em width:700*/
     height: 550px; /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 40px;
@@ -37,9 +36,9 @@ form{
     width: 200px;
     height: 200px;
     margin: 0 15px; /*Espaçamento botões*/
-    background-color: rgb(220, 220, 25);
+    background-color: blue;
     color: #fff;
-    border: 1px solid rgb(229, 229, 81);
+    border: 1px solid blue;
     border-radius: 10px;
     cursor: pointer;/*Mudar para mãozinha no mouse*/
     font-size: 20px;
@@ -48,7 +47,7 @@ form{
 
 .botao:hover {
     background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
-    color: rgb(229, 229, 81);
+    color: blue;
 }
 
 .container{
@@ -83,7 +82,8 @@ form{
     font-size: 15px;
     transition: all .3s ease;/*Tempo transição mudar cor botão*/
     position: absolute;
-    top: 0;
+
+    top: 1px;
     right: 0;
 }
 

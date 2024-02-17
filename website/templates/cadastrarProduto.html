@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Cadastro</h1>
+    <form method="post" class="formSite">
+      {%csrf_token%}
+      <div class="input-group">
+        <div class="input-single">
+          <label for="uname">Nome</label>
+          <input type="text" name="nome" class="input">
+        </div>
+
+        <div class="input-single">
+          <label for="uname">Marca</label>
+          <input type="text" name="marca" class="input">
+        </div>
+
+        <div class="input-single">
+          <label for="uname">Peso</label>
+          <input type="text" name="peso" class="input">
+        </div>
+
+        <div class="input-single">
+            <label> Descrição do produto: </label>
+            <textarea name="descProduto" id="" cols="30" rows="5" class="input" id="descricao-box"></textarea>
+        </div>
+
+      </div>
+      <br>
+      <div class="botoes">
+        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
+      </div>
+      {% for message in messages %}
+      <p id="messages" style="text-align:center"><br>
+        {{ message }}
+      </p>
+      {% endfor %}
+    </form>
+  </div>
+</body>
+</html>

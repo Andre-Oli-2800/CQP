@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprar Produtos</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Commprar Produtos</h1>
+    <form method="post" class="formSite">
+      {%csrf_token%}
+      <div class="input-group">
+        <div class="input-single">
+          <label for="uname">CPF do Cliente</label>
+          <input type="text" name="cpfCli" class="input">
+        </div>
+
+        <div class="input-single">
+          <label for="uname">Nome do Produto</label>
+          <input type="text" name="idProduto" class="input">
+        </div>
+
+        <div class="input-single">
+          <label for="uname">Quantidade</label>
+          <input type="text" name="quant" class="input">
+        </div>
+
+
+   
+      </div>
+      <br>
+      <div class="botoes">
+        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
+      </div>
+      {% for message in messages %}
+      <p id="messages" style="text-align:center"><br>
+        {{ message }}
+      </p>
+      {% endfor %}
+    </form>
+  </div>
+</body>
+</html>
