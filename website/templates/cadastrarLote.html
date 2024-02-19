@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  {% include 'header.html' %}
   <div class="container">
     <h1>Cadastro</h1>
     <form method="post" class="formSite">
@@ -17,9 +18,15 @@
       <div class="input-group">
         <div class="input-single">
           <label for="uname">ID Produto</label>
-          <input type="text" name="idProduto" class="input">
+          
+          <select name="idProduto" id="">
+            {% for produto in produtos %}
+            <option value="{{produto.id}}">ID:{{produto.id}} | Nome:{{produto.nome}}</option>
+            {% endfor %}
+          </select>
+          
         </div>
-
+      
         <div class="input-single">
           <label for="uname">Quantidade</label>
           <input type="text" name="quantidade" class="input">

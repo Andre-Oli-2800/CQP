@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    min-height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: roboto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.titulo{
+    color: rgb(255, 247, 0);
+    float: left;
+
+    /*justify-content: center;
+    align-items: center;*/
+   width: 50%;
+  
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
+
+
+    border-radius: 10px;
+    text-align: center;
+    font-size: 40px Arial;
+}
+
+h1{
+    text-align: center;
+    color:white;
+}
+
+.btn-primary{
+
+
+    width: 100px;
+    height: 40px;
+    margin: 0 15px; /*Espaçamento botões*/
+    background-color: blue;
+    color: #fff;
+    border: 1px solid blue;
+    border-radius: 10px;
+    cursor: pointer;/*Mudar para mãozinha no mouse*/
+    font-size: 15px;
+    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
+    color: blue;
+}
+
+.botoes{
+    text-align: center;
+    /*top: 25px;
+    position: relative;*/
+}
+
+.container{
+    max-width: 1280px;
+    margin: 0 auto;
+    
+}
+
+.formSite{
+    background-color: #fff;
+    max-width: 540px; /*Aumentar largura do quadrado*/
+    min-height: 600px; /*Aumentar altura do quadrado*/
+    padding: 40px;
+    border-radius: 20px;
+    
+}
+
+.input-single{
+    
+    display: block;
+    position: relative;
+    margin: 20px 0;   
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.input-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
+.input-single label{
+    left: -4;
+    bottom: 6px;
+    cursor: text;
+}
+
+.input{
+    width: 100%;
+    padding: 5px;
+    font-size: 17px;
+    outline: 0;
+}
+
+input[type="date"] {
+    width: 225px;
+
+}
+
+.input-single select{
+ width: 225px;   
+ height: 35px;
+}
+
+.confSenha{
+    width: 225px; 
+    height: 52px;
+}
+
+label{
+    font-weight: bold;
+}

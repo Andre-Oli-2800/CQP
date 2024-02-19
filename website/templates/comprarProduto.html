@@ -3,6 +3,7 @@
 <html lang="pt-br">
 
 <head>
+  {% include 'header.html' %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comprar Produtos</title>
@@ -17,25 +18,30 @@
       <div class="input-group">
         <div class="input-single">
           <label for="uname">CPF do Cliente</label>
-          <input type="text" name="cpfCli" class="input">
+          <select name="cpfCli" id="">
+          {% for cliente in clientes %}
+          <option value="{{cliente.cpf}}">CPF:{{cliente.cpf}} | Nome:{{cliente.nome}}</option>
+          {% endfor %}
+        </select>
         </div>
 
         <div class="input-single">
-          <label for="uname">Nome do Produto</label>
-          <input type="text" name="idProduto" class="input">
+          <label for="uname">Nome do Produto</label>    
+          <select name="idProduto" id="">
+          {% for produto in produtos %}
+          <option value="{{produto.id}}">ID:{{produto.id}} | Nome:{{produto.nome}}</option>
+          {% endfor %}
+        </select>
         </div>
 
         <div class="input-single">
           <label for="uname">Quantidade</label>
           <input type="text" name="quant" class="input">
         </div>
-
-
-   
       </div>
       <br>
       <div class="botoes">
-        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
+        <button type="submit" name="comprar" class="btn-primary">Comprar</button>
       </div>
       {% for message in messages %}
       <p id="messages" style="text-align:center"><br>

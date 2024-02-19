@@ -12,15 +12,18 @@
         {%csrf_token%}
         <header>
             <div class="iconeLogin">
-                <img src="{% static 'imagens/livro-historia.png' %}">
+                <img src="{% static 'imagens/logo.png' %}">
             </div>
             <div class="titulo">
-                <label for="" name="titulo">Estude História</label>
+                <label for="" name="titulo">CQP</label>
             </div>
             <a href="../editarPerfil/{{cpf}}" name="editarPerfil">Editar perfil</a>
-            <a href="../enviarArquivo/{{cpf}}">Enviar arquivo</a>
-            <a href="../verBaixarArquivos/{{cpf}}">Ver/Baixar arquivos</a>
-            <a href="../arquivosEnviados/{{cpf}}"> Editar arquivo</a>
+            <a href="../cadastrarCliente">Cliente</a>
+            <a href="../cadastrarFornecedor">Fornecedor</a>
+            <a href="../cadastroProduto">Produtos</a>
+            <a href="../cadastrarLote">Lote</a>
+            <a href="../comprarProduto">Comprar produto</a>
+            <a href="../graficos">Gráficos</a>
             <button class="botao" name="Sair"> Sair</button>
         </header>
         <main></main>

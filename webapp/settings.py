@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cadProdutos',
+        'NAME': 'CQP',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

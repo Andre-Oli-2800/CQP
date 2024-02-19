@@ -36,17 +36,19 @@
 
         <div class="input-single">
           <label for="uname">Email</label>
-          <input type="text" name="email" class="input">
+          <input type="text" name="email" class="input" autocomplete="email">
         </div>
 
         <div class="input-single">
           <label for="uname">Telefone</label>
-          <input type="text" name="tel" class="input">
+          <input type="tel" name="tel" class="input" autocomplete="tel"
+          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
         </div>
 
         <div class="input-single">
           <label for="uname">Celular</label>
-          <input type="text" name="tel" class="input">
+          <input type="tel" name="cel" class="input" autocomplete="tel"
+          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
         </div>
 
         <div class="input-single">

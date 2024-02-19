@@ -30,6 +30,9 @@ form{
     height: 550px; /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 40px;
+
+    
+    box-shadow:20px ;
 }
 
 .botao{

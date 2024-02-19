@@ -16,8 +16,7 @@ body{
     align-items: center;
     justify-content: center;
     
-    box-shadow: 5px 10px;
-
+    
 }
 
 .titulo{
@@ -87,6 +86,8 @@ h1{
     min-height: 600px; /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     
 }
 

@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  {% include 'header.html' %}
   <div class="container">
     <h1>Cadastrar Cliente</h1>
     <form method="post" class="formSite">
@@ -47,12 +48,14 @@
 
         <div class="input-single">
           <label for="uname">Telefone</label>
-          <input type="text" name="telefone" class="input">
+          <input type="text" name="telefone" class="input" 
+          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">         
         </div>
 
         <div class="input-single">
           <label for="uname">Celular</label>
-          <input type="text" name="celular" class="input">
+          <input type="text" name="celular" class="input"
+          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
         </div>
 
         <div class="input-single">

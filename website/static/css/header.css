@@ -5,7 +5,7 @@ box-sizing: border-box;
 }
 
 header{
-    background: rgb(194, 194, 0);
+    background: blue;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,8 +41,8 @@ main{
 .titulo{
     position: relative;
     font-family: "Times New Roman";
-    right: 4rem;
-    color: rgb(255, 255, 0);
+    right: 2rem;
+    color: rgb(255, 111, 0);
     font-size: 30px;
 }
 
