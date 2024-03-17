@@ -13,8 +13,11 @@ from django.utils.datastructures import MultiValueDictKeyError
 import pandas as pd
 from django.core.files.storage import FileSystemStorage
 from django.db.utils import OperationalError
+from django.core.exceptions import ValidationError
+
 
 def cadastro(request):
+        status = ''
         if 'cadastrar' in request.POST:           
             cpf = request.POST.get("cpf")
             nome = request.POST.get("nome")
@@ -28,6 +31,8 @@ def cadastro(request):
             confSenha = request.POST.get("confSenha")
             if cpf == ' ' or nome == '' or sobrenome == '' or email == '' or telefone == '' or celular == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
                 messages.error(request,'Preencha todos os campos')
+                status = 'erro'  
+                print(f'STATUS: {status}')
                 return redirect('cadastro')
             else:
                 if senha == confSenha:
@@ -40,12 +45,14 @@ def cadastro(request):
                         return redirect('/login') 
                     except (IntegrityError):
                         messages.error(request, 'Já existe um usuário cadastrado com esse CPF')
+                        status = 'erro'  
                 else:
-                    messages.error(request,"As senhas inseridas são diferentes")               
+                    messages.error(request,"As senhas inseridas são diferentes")  
+                    status = 'erro'             
                     return redirect("/cadastro")                   
         if 'login' in request.POST:
             return redirect('/login')
-        return render(request,'cadastro.html')
+        return render(request,'cadastro.html',{'status':status})
 
 def login(request):
     if 'login' in request.POST:
@@ -80,17 +87,17 @@ def paginaInicial (request,cpf):
         if "sair" in request.POST:
             return redirect('sair')
         elif 'cadCliente' in request.POST:
-            return redirect('cadastrarCliente')
+            return redirect('../cadastrarCliente/'+str(cpf))
         elif 'cadProduto' in request.POST:
-            return redirect('cadastroProduto')
+            return redirect('../cadastroProduto/'+str(cpf))
         elif 'CadFornecedor' in request.POST:
-            return redirect('cadastrarFornecedor')
+            return redirect('../cadastrarFornecedor/'+str(cpf))
         elif 'cadLote' in request.POST:
-            return redirect('cadastrarLote')
+            return redirect('../cadastrarLote/'+str(cpf))
         elif 'comprarProduto' in request.POST:
-            return redirect('comprarProduto')
+            return redirect('../comprarProduto/'+str(cpf))
         elif 'grafico' in request.POST:
-            return redirect('graficos')
+            return redirect('../graficos/'+str(cpf))
         elif 'editarConta' in request.POST:
             return redirect('../editarPerfil/'+str(cpf))
     except Usuario.DoesNotExist:
@@ -98,12 +105,12 @@ def paginaInicial (request,cpf):
         return redirect('login')
     return render(request,'paginaInicial.html')
 
-def cadastrarCliente(request):
+def cadastrarCliente(request,cpf):
     if 'Sair' in request.POST:
         return redirect('sair')
     elif 'cadastrar' in request.POST:
         try:
-            cpf = request.POST.get('cpf')
+            cpfCliente = request.POST.get('cpf')
             nome = request.POST.get("nome")
             sobrenome = request.POST.get("sobrenome")
             email = request.POST.get("email")
@@ -113,14 +120,18 @@ def cadastrarCliente(request):
             cidade = request.POST.get('cidade')
             sexo = request.POST.get("sexo")
             dataNascimento = request.POST.get("dtNascimento")
-            Cliente.objects.create(cpf=cpf,nome=nome,sobrenome=sobrenome,email=email,telefone=telefone,celular=celular,
+            Cliente.objects.create(cpf=cpfCliente,nome=nome,sobrenome=sobrenome,email=email,telefone=telefone,celular=celular,
                                 endereco=endereco,cidade=cidade, sexo=sexo,dataNascimento=dataNascimento)
             messages.success(request,'Cliente cadastrado com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
-    return render(request,'cadastrarCliente.html')
+        except ValidationError:
+            messages.error(request,'Insira a data de nascimento do cliente')
+        except IntegrityError:
+            messages.error(request,'Já existe um cliente cadastrado com esse CPF')
+    return render(request,'cadastrarCliente.html',{'cpf':cpf})
 
-def cadastroProduto(request):
+def cadastroProduto(request,cpf):
     if 'Sair' in request.POST:
         return redirect('sair') 
     elif 'cadastrar' in request.POST:
@@ -128,35 +139,51 @@ def cadastroProduto(request):
             nome = request.POST.get('nome')
             marca = request.POST.get('marca')
             peso = request.POST.get('peso')
+            medida = request.POST.get('medida')
+            preco = request.POST.get('preco')
             descricao = request.POST.get('descProduto')
-            Produto.objects.create(nome=nome,marca=marca,peso=peso,descricao=descricao)
+            Produto.objects.create(nome=nome,marca=marca,peso=peso,medida=medida,preco=preco,descricao=descricao)
             messages.success(request,'Produto cadastrado com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
-    return render(request,'cadastrarProduto.html')
+    return render(request,'cadastrarProduto.html',{'cpf':cpf})
 
-def comprarProduro(request):
+def comprarProduro(request,cpf):
     produtos = Produto.objects.all()
     clientes = Cliente.objects.all()
+    fornecedores = Fornecedor.objects.all()
     if 'Sair' in request.POST:
         return redirect('sair')
     elif 'comprar' in request.POST:
         try:
+            
             cpfCliente = request.POST.get('cpfCli')
             idProduto = request.POST.get('idProduto')
+            quantProd = loteProd.objects.values_list('quanti').filter(idProduto=idProduto)
             quantidade = request.POST.get('quant')
-            fabricacao = request.POST.get('dataFab')
-            validade = request.POST.get('daraVali')
             prod = Produto.objects.get(id=idProduto)
             cli = Cliente.objects.get(cpf=cpfCliente)
-            comprarProd.objects.create(cpfCliente=cli,idProduto=prod,quantProd=quantidade,fabricacao=fabricacao,validade=validade)
-            messages.success(request,'Compra registrada com sucesso')
+            somaLotes = 0
+            totCompras = 0
+            lotes = loteProd.objects.values_list('quanti',flat=True).filter(idProduto=idProduto)
+            comprasAntes = comprarProd.objects.values_list('quantProd',flat=True).filter(idProduto=idProduto)
+            for compraAnte in comprasAntes:
+                totCompras += compraAnte
+            for lote in lotes:
+                somaLotes+=lote
+            if (int(somaLotes) <= int(totCompras)+int(quantidade)):
+                messages.error(request,'A quantidade disponível desse produto é menor que a solicitada')
+            else:
+                comprarProd.objects.create(cpfCliente=cli,idProduto=prod,quantProd=quantidade)
+                messages.success(request,'Compra registrada com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
-        return redirect('comprarProduto')
-    return render(request,'comprarProduto.html',{'produtos':produtos,'clientes':clientes})
+            return redirect('comprarProduto')
+        except Cliente.DoesNotExist:
+            messages.error(request,'Selecione um cliente')
+    return render(request,'comprarProduto.html',{'produtos':produtos,'clientes':clientes,'fornecedores':fornecedores,'cpf':cpf})
 
-def cadastrarFornecedor(request):
+def cadastrarFornecedor(request,cpf):
     if 'Sair' in request.POST:
         return redirect('sair') 
     elif 'cadastrar' in request.POST:
@@ -172,55 +199,79 @@ def cadastrarFornecedor(request):
             Fornecedor.objects.create(cnpj=cnpj,nome=nome,ramo=ramo,email=email,telefone=telefone,endereco=endereco,cidade=cidade,estado=estado)
         except ValueError:
             messages.error(request,'Preencha todos os campos')
+        except IntegrityError:
+            messages.error(request, "Já existe um fornecedor cadastrado com esse CNPJ")
+        except AttributeError:
+            messages.error(request,'Preencha todos os campos')
         return('cadastrarFornecedor')
-    return render(request,'cadastrarFornecedor.html')
+    
+    return render(request,'cadastrarFornecedor.html',{'cpf':cpf})
 
-def cadastrarLote(request):
+def cadastrarLote(request,cpf):
     produtos = Produto.objects.all()
+    fornecedores = Fornecedor.objects.all()
     if 'Sair' in request.POST:
         return redirect('sair') 
-    elif 'Cadastrar' in request.POST:
+    elif 'cadastrar' in request.POST:
         try:
             idProduto = request.POST.get('idProduto')
-            quantidade = request.POST.get('quanti')
+            cnpj = request.POST.get('cnpj')
+            quantidade = request.POST.get('quantidade')
             fabricacao = request.POST.get('dataFabri')
             validade = request.POST.get('dataVali')
-            loteProd.objects.create(idProduto=idProduto,quantidade=quantidade,fabricacao=fabricacao,validade=validade)
+            prod = Produto.objects.get(id=idProduto)
+            fornec = Fornecedor.objects.get(cnpj=cnpj)
+            print(f'cnpj: {cnpj} idProduto: {idProduto}')
+            loteProd.objects.create(idProduto=prod,idFornecedor=fornec,quanti=quantidade,fabri=fabricacao,vali=validade)
+            messages.success(request,'Lote cadastrado com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
+        except ValidationError:
+            messages.error(request,'Insira a data de fabricação e validade')
         return redirect('cadastrarLote')
-    return render(request,'cadastrarLote.html',{'produtos':produtos})
+    return render(request,'cadastrarLote.html',{'produtos':produtos,'fornecedores':fornecedores,'cpf':cpf})
 
-def graficos(request):
+def graficos(request,cpf):
+    somaMaisVendidos = 0
+    nomeMaisVendidos = comprarProd.objects.values_list('quantProd',flat=True)
+    maisVendidoListas = comprarProd.objects.values_list('idProduto',flat=True)
+    for maisVendido in maisVendidoListas:
+        somaMaisVendidos += maisVendido
+    print(f'MAIS VENDIDOS: {somaMaisVendidos}')
+
     if 'Sair' in request.POST:
         return redirect('sair')     
-    return render(request,'graficos.html')
+    return render(request,'graficos.html',{'somaMaisVendidos':somaMaisVendidos,'nomeMaisVendidos':nomeMaisVendidos,'cpf':cpf})
 
 def editarPerfil(request,cpf):
-    user= Usuario.objects.get(cpf=cpf)
-    dataUsuario = user.dataNascimento
-    dataPanda = pd.to_datetime(dataUsuario)
-    data = str(dataPanda.date())
-    usuario= Usuario.objects.filter(cpf=cpf)
-    if 'Sair' in request.POST:
-        return redirect('sair')
-    elif 'salvar' in request.POST:
-        nome = request.POST.get("nome")
-        sobrenome = request.POST.get("sobrenome")
-        email = request.POST.get("email")
-        sexo = request.POST.get("sexo")
-        dataNascimento = request.POST.get("dtNascimento")
-        senha = request.POST.get("senha")
-        confSenha = request.POST.get("confSenha")
-        if nome == '' or sobrenome == '' or email == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
-            messages.error(request,'Preencha todos os campos')
-            return redirect('editarPerfil/'+str(cpf))
-        else:
-            if senha == confSenha:
-                Usuario.objects.filter(cpf=cpf).update(nome=nome, sobrenome=sobrenome,
-                                       email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
-                messages.success(request,"Perfil editado com sucesso")
-                return redirect('/editarPerfil/'+str(cpf)) 
+    try:
+        user= Usuario.objects.get(cpf=cpf)
+        dataUsuario = user.dataNascimento
+        dataPanda = pd.to_datetime(dataUsuario)
+        data = str(dataPanda.date())
+        usuario= Usuario.objects.filter(cpf=cpf)
+        if 'Sair' in request.POST:
+            return redirect('sair')
+        elif 'salvar' in request.POST:
+            nome = request.POST.get("nome")
+            sobrenome = request.POST.get("sobrenome")
+            email = request.POST.get("email")
+            sexo = request.POST.get("sexo")
+            dataNascimento = request.POST.get("dtNascimento")
+            senha = request.POST.get("senha")
+            confSenha = request.POST.get("confSenha")
+            if nome == '' or sobrenome == '' or email == '' or sexo == '' or dataNascimento == '' or senha == '' or confSenha == '':      
+                messages.error(request,'Preencha todos os campos')
+                return redirect('editarPerfil/'+str(cpf))
+            else:
+                if senha == confSenha:
+                    Usuario.objects.filter(cpf=cpf).update(nome=nome, sobrenome=sobrenome,
+                                        email=email,sexo=sexo,dataNascimento=dataNascimento,senha=senha)
+                    messages.success(request,"Perfil editado com sucesso")
+                    return redirect('/editarPerfil/'+str(cpf)) 
+    except Usuario.DoesNotExist:
+        messages.error(request,'Esse usuário não existe') 
+        return redirect('../paginaInicial/'+str(cpf))   
     return render(request,'editarPerfil.html',{'usuario':usuario,'data':data,'cpf':cpf})
 
 def excluir(request, id):

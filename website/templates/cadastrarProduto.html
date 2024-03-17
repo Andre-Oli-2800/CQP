@@ -12,9 +12,10 @@
 <body>
   {% include 'header.html' %}
   <div class="container">
-    <h1>Cadastro</h1>
+    <h1>Cadastrar Produto</h1>
     <form method="post" class="formSite">
       {%csrf_token%}
+
       <div class="input-group">
         <div class="input-single">
           <label for="uname">Nome</label>
@@ -26,18 +27,35 @@
           <input type="text" name="marca" class="input">
         </div>
 
-        <div class="input-single">
+        <div class="input-single50">
           <label for="uname">Peso</label>
-          <input type="text" name="peso" class="input">
+          <input type="number" step="0.01" name="peso" class="input">
+        </div>
+
+        <div class="input-single50">
+          
+        <label for="uname">Tipo</label>
+        <select name="medida" id="tamanhoPeso">
+            <option value="Kg" id="tamanhoPeso">Kg</option>
+            <option value="g">g</option>
+            <option value="L">L</option>
+            <option value="ml">ml</option>
+        </select>
+
+        </div>
+
+        <div class="input-single50">
+          <label for="uname">Preço</label>
+          <input type="number" step="0.01" name="preco" class="input" id="tamanhoPreco">
         </div>
 
         <div class="input-single">
-            <label> Descrição do produto: </label>
+            <label> Descrição do produto </label>
             <textarea name="descProduto" id="" cols="50" rows="5" class="input" id="descricao-box"  ></textarea>
         </div>
 
       </div>
-      <br>
+      
       <div class="botoes">
         <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
       </div>

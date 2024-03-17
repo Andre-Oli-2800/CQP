@@ -15,8 +15,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    
+ 
 }
 
 .titulo{
@@ -81,14 +80,18 @@ h1{
 }
 
 .formSite{
+
+    
     background-color: #fff;
     max-width: 540px; /*Aumentar largura do quadrado*/
     min-height: 600px; /*Aumentar altura do quadrado*/
     padding: 40px;
     border-radius: 20px;
 
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+
+    float:bottom;  
+    bottom: 50px;
 }
 
 .input-single{
@@ -99,6 +102,19 @@ h1{
     display: flex;
     flex-direction: column;
     
+}
+
+
+.input-single50{
+    position: relative;
+    margin: 20px 0;   
+    display: flex;
+    
+    flex-direction: column;
+    padding-right: -355px;
+
+
+
 }
 
 .input-group{
@@ -138,4 +154,87 @@ input[type="date"] {
 
 label{
     font-weight: bold;
+}
+
+#messagesErro{
+    /*padding: 10px;*/
+    width: 460px;
+    height: 40px;
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+}
+
+#messagesSucesso{
+    /*padding: 10px;*/
+    width: 460px;
+    height: 40px;
+    background-color: green;
+    color: white;
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+  }
+
+#tamanhoPeso{
+    width: 50px;
+    height: 33px;
+    margin-right: 175px;
+}
+
+#tamanhoPeso select{
+    width: 50px;
+    height: 33px;
+    margin-right: 175px;
+}
+
+#tamanhoPreco{
+    /*width: 70px;
+    height: 33px;
+    margin-right: 30px;*/
+}
+
+.formFornecedor{
+    background-color: #fff;
+    max-width: 540px; /*Aumentar largura do quadrado*/
+    min-height: 530px; /*Aumentar altura do quadrado*/
+    padding: 40px;
+    border-radius: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+       
+    float:bottom;  
+    bottom: 50px;
+}
+
+.formLote{
+    background-color: #fff;
+    max-width: 540px; /*Aumentar largura do quadrado*/
+    min-height: 430px; /*Aumentar altura do quadrado*/
+    padding: 40px;
+    border-radius: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+       
+    float:bottom;  
+    bottom: 50px;
+}
+
+.formComprar{
+    background-color: #fff;
+    max-width: 540px; /*Aumentar largura do quadrado*/
+    min-height: 380px; /*Aumentar altura do quadrado*/
+    padding: 40px;
+    border-radius: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+       
+    float:bottom;  
+    bottom: 50px; 
+}
+
+.textarea{
+    font-family: Arial;
 }

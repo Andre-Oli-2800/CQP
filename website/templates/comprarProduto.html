@@ -12,8 +12,8 @@
 
 <body>
   <div class="container">
-    <h1>Commprar Produtos</h1>
-    <form method="post" class="formSite">
+    <h1>Comprar Produto</h1>
+    <form method="post" class="formComprar">
       {%csrf_token%}
       <div class="input-group">
         <div class="input-single">
@@ -36,7 +36,7 @@
 
         <div class="input-single">
           <label for="uname">Quantidade</label>
-          <input type="text" name="quant" class="input">
+          <input type="number" name="quant" class="input">
         </div>
       </div>
       <br>

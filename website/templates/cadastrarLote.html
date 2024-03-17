@@ -12,24 +12,32 @@
 <body>
   {% include 'header.html' %}
   <div class="container">
-    <h1>Cadastro</h1>
-    <form method="post" class="formSite">
+    <h1>Cadastrar Lote</h1>
+    <form method="post" class="formLote">
       {%csrf_token%}
       <div class="input-group">
         <div class="input-single">
-          <label for="uname">ID Produto</label>
+          <label for="uname">ID do Produto</label>
           
           <select name="idProduto" id="">
             {% for produto in produtos %}
             <option value="{{produto.id}}">ID:{{produto.id}} | Nome:{{produto.nome}}</option>
             {% endfor %}
           </select>
-          
         </div>
-      
+
+        <div class="input-single">
+          <label for="uname">CNPJ do Fornecedor</label>
+          <select name="cnpj" id="">
+            {% for fornecedor in fornecedores %}
+            <option value="{{fornecedor.cnpj}}">CNPJ:{{fornecedor.cnpj}} | Fornecedor:{{fornecedor.nome}}</option>
+            {% endfor %}
+          </select>
+      </div>
+
         <div class="input-single">
           <label for="uname">Quantidade</label>
-          <input type="text" name="quantidade" class="input">
+          <input type="num" name="quantidade" class="input">
         </div>
 
         <div class="input-single">
@@ -39,11 +47,11 @@
 
         <div class="input-single">
             <label> Data de Validade: </label>
-            <input type="date" name="dataFabri" class="input">
+            <input type="date" name="dataVali" class="input">
         </div>
 
       </div>
-      <br>
+
       <div class="botoes">
         <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
       </div>

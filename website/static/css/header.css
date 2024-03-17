@@ -9,11 +9,10 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 8vh;
+    height: 6.5vh;
     position: fixed;
     width: 100%;
     gap: 5em;
-    width: 100%;
     top: 0;
 }
 
@@ -41,7 +40,8 @@ main{
 .titulo{
     position: relative;
     font-family: "Times New Roman";
-    right: 2rem;
+    margin-right: 175px;
+
     color: rgb(255, 111, 0);
     font-size: 30px;
 }

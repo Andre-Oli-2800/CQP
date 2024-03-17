@@ -4,10 +4,14 @@ const ctx = document.getElementById('myChart');
 var chartGraph = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    {% for nomeMaisVendido in nomeMaisVendidos %}
+    labels: [{{nomeMaisVendido}}],
+    {% endfor %}
     datasets: [{
       label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      {% for maisVendidoLista in maisVendidoListas %}
+      data: [maisVendidoLista],
+      {% endfor %}
       borderWidth: 1
     }]
   },

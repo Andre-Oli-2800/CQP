@@ -18,6 +18,16 @@
     <h1>Cadastro</h1>
     <form method="post" class="formSite">
       {%csrf_token%}
+
+      {% for message in messages %}
+      {% if status == "erro" %}
+      <p id="messagesErro" style="text-align:center"><br>
+      {% elif status == "sucesso" %}  
+      <p id="messagesSucesso" style="text-align:center"><br>
+      {% endif %}
+        {{ message }}
+      </p>
+      {% endfor %}
       <div class="input-group">
         <div class="input-single">
           <label for="uname">CPF</label>
@@ -41,14 +51,12 @@
 
         <div class="input-single">
           <label for="uname">Telefone</label>
-          <input type="tel" name="tel" class="input" autocomplete="tel"
-          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
+          <input type="tel" name="tel" class="input" autocomplete="tel" value="()">
         </div>
 
         <div class="input-single">
           <label for="uname">Celular</label>
-          <input type="tel" name="cel" class="input" autocomplete="tel"
-          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
+          <input type="tel" name="cel" class="input" autocomplete="tel" value="()">
         </div>
 
         <div class="input-single">
@@ -77,16 +85,12 @@
           </div>
         </div>
       </div>
-      <br>
+
       <div class="botoes">
         <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
         <button type="submit" name="login" class="btn-primary">Login</button>
       </div>
-      {% for message in messages %}
-      <p id="messages" style="text-align:center"><br>
-        {{ message }}
-      </p>
-      {% endfor %}
+      
     </form>
   </div>
 </body>

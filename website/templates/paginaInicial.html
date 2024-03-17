@@ -62,7 +62,13 @@
         </div>
 
       </div>
+      {% for message in messages %}
+            <p id="messages" style="text-align:center"><br>
+                {{ message }}
+            </p>
+            {% endfor %}
     </form>
+    
   </div>
 </body>
 </html>
