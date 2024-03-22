@@ -37,13 +37,14 @@ main{
     color: red;
 }
 
-.titulo{
+#titulo{
     position: relative;
     font-family: "Times New Roman";
-    margin-right: 175px;
+    margin-right: 20px;
 
-    color: rgb(255, 111, 0);
-    font-size: 30px;
+    color: rgb(251, 255, 0);
+    font-size: 25px;
+    left: -80px;
 }
 
 a:link {

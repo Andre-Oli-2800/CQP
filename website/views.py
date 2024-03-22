@@ -129,6 +129,7 @@ def cadastrarCliente(request,cpf):
             messages.error(request,'Insira a data de nascimento do cliente')
         except IntegrityError:
             messages.error(request,'Já existe um cliente cadastrado com esse CPF')
+        return redirect('../cadastrarCliente/'+str(cpf))
     return render(request,'cadastrarCliente.html',{'cpf':cpf})
 
 def cadastroProduto(request,cpf):
@@ -146,9 +147,10 @@ def cadastroProduto(request,cpf):
             messages.success(request,'Produto cadastrado com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
+            return redirect('../cadastroProduto/'+str(cpf))
     return render(request,'cadastrarProduto.html',{'cpf':cpf})
 
-def comprarProduro(request,cpf):
+def comprarProduto(request,cpf):
     produtos = Produto.objects.all()
     clientes = Cliente.objects.all()
     fornecedores = Fornecedor.objects.all()
@@ -156,7 +158,6 @@ def comprarProduro(request,cpf):
         return redirect('sair')
     elif 'comprar' in request.POST:
         try:
-            
             cpfCliente = request.POST.get('cpfCli')
             idProduto = request.POST.get('idProduto')
             quantProd = loteProd.objects.values_list('quanti').filter(idProduto=idProduto)
@@ -178,9 +179,10 @@ def comprarProduro(request,cpf):
                 messages.success(request,'Compra registrada com sucesso')
         except ValueError:
             messages.error(request,'Preencha todos os campos')
-            return redirect('comprarProduto')
+            return redirect('../comprarProduto/'+str(cpf))
         except Cliente.DoesNotExist:
             messages.error(request,'Selecione um cliente')
+            return redirect('../comprarProduto/'+str(cpf))
     return render(request,'comprarProduto.html',{'produtos':produtos,'clientes':clientes,'fornecedores':fornecedores,'cpf':cpf})
 
 def cadastrarFornecedor(request,cpf):
@@ -203,7 +205,7 @@ def cadastrarFornecedor(request,cpf):
             messages.error(request, "Já existe um fornecedor cadastrado com esse CNPJ")
         except AttributeError:
             messages.error(request,'Preencha todos os campos')
-        return('cadastrarFornecedor')
+        return redirect('../cadastrarFornecedor/'+str(cpf))
     
     return render(request,'cadastrarFornecedor.html',{'cpf':cpf})
 
@@ -228,20 +230,22 @@ def cadastrarLote(request,cpf):
             messages.error(request,'Preencha todos os campos')
         except ValidationError:
             messages.error(request,'Insira a data de fabricação e validade')
-        return redirect('cadastrarLote')
+        except Fornecedor.DoesNotExist:
+            messages.error(request,'Insira um fornecedor')
+        return redirect('../cadastrarLote/'+str(cpf))
     return render(request,'cadastrarLote.html',{'produtos':produtos,'fornecedores':fornecedores,'cpf':cpf})
 
 def graficos(request,cpf):
-    somaMaisVendidos = 0
-    nomeMaisVendidos = comprarProd.objects.values_list('quantProd',flat=True)
-    maisVendidoListas = comprarProd.objects.values_list('idProduto',flat=True)
-    for maisVendido in maisVendidoListas:
-        somaMaisVendidos += maisVendido
-    print(f'MAIS VENDIDOS: {somaMaisVendidos}')
-
+    dados = Produto.objects.raw('''select p.id,p.nome, 
+                                sum(lp.quanti) as Quantidade_Vendida,
+                                sum(cp.quantProd) as Quantidade_Comprada 
+                                from loteprod lp 
+                                left join produto p on (lp.idProduto_id = p.id) 
+                                left join clienteprod cp on (lp.idProduto_id = cp.idProduto_id) 
+                                group by p.nome''')
     if 'Sair' in request.POST:
         return redirect('sair')     
-    return render(request,'graficos.html',{'somaMaisVendidos':somaMaisVendidos,'nomeMaisVendidos':nomeMaisVendidos,'cpf':cpf})
+    return render(request,'graficos.html',{'cpf':cpf,'dados':dados})
 
 def editarPerfil(request,cpf):
     try:
@@ -273,14 +277,6 @@ def editarPerfil(request,cpf):
         messages.error(request,'Esse usuário não existe') 
         return redirect('../paginaInicial/'+str(cpf))   
     return render(request,'editarPerfil.html',{'usuario':usuario,'data':data,'cpf':cpf})
-
-def excluir(request, id):
-    excluirArq = Usuario.objects.get(id=id)
-    arquivo = str(excluirArq.enderecoArquivo)
-    cpf = excluirArq.cpf
-    excluirArq.delete()
-    messages.success(request,"Arquivo exluído com sucesso")
-    return redirect('../arquivosEnviados/'+str(cpf)) 
 
 def sair(request):
     logout(request)

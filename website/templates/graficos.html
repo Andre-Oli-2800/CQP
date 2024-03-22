@@ -4,43 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/graficos.css' %}">
+    <title>Informações de vendas e compras</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
 
 <body>
-    {%csrf_token%}
+  {% include 'header.html' %}
+  <div class="container">
+    <h1>Dados de Compras e Vendas</h1>
+    <form method="post" class="formComprar">
+      {%csrf_token%}
+        <table >
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Total de Vendas</th>
+            <th>Total de Compras</th>
+          </tr>
+          {% for dado in dados %}
+          <tr>
+            
+            <td>{{dado.id}}</td>
+            <td>{{dado.nome}}</td>
+            <td>{{dado.Quantidade_Vendida}}</td>
+            <td>{{dado.Quantidade_Comprada}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+          
+
+    </form>
+
+
+
   
-    {% include 'header.html' %}
-<h1>Produtos mais comprados</h1>
-        <div id="chart"></div>
-      
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-
-      <script>
-        var maisVendido = {{somaMaisVendidos}}
-        var options = {
-  chart: {
-    type: 'bar'
-  },
-  
-  series: [{
-    name: 'sales',
-    data: [30,40,45,50,49,60,70,91,maisVendido]
-  }],
-  xaxis: {
-    categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-  }
-}
-
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-chart.render();
-
-
-
-      </script>
 </body>
 </html>

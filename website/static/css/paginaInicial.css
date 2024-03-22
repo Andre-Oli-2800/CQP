@@ -94,3 +94,8 @@ form{
     background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
     color: red;
 }
+
+#messages{
+    top: 50px;
+    right: 50px;
+}

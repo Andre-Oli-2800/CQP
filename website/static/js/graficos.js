@@ -10,7 +10,7 @@ var chartGraph = new Chart(ctx, {
     datasets: [{
       label: '# of Votes',
       {% for maisVendidoLista in maisVendidoListas %}
-      data: [maisVendidoLista],
+      data: [{{maisVendidoLista}}],
       {% endfor %}
       borderWidth: 1
     }]

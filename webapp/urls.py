@@ -28,10 +28,9 @@ urlpatterns = [
     path('cadastrarCliente/<int:cpf>',views.cadastrarCliente,name='cadastrarCliente'),
     path('cadastroProduto/<int:cpf>',views.cadastroProduto,name='cadastroProduto'),
     path('cadastrarFornecedor/<int:cpf>',views.cadastrarFornecedor,name='cadastrarFornecedor'),
-    path('comprarProduto/<int:cpf>',views.comprarProduro,name='comprarProduto'),
+    path('comprarProduto/<int:cpf>',views.comprarProduto,name='comprarProduto'),
     path('cadastrarLote/<int:cpf>',views.cadastrarLote,name='cadastrarLote'),
     path('graficos/<int:cpf>',views.graficos,name='graficos'),
-    path('excluir/<int:id>',views.excluir,name='excluir'),
     path('editarPerfil/<int:cpf>',views.editarPerfil,name='editarPerfil'),
     path('sair',views.sair,name='sair'),
 ]
