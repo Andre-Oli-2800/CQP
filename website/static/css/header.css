@@ -1,58 +1,57 @@
-*{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header{
-    background: blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 6.5vh;
-    position: fixed;
-    width: 100%;
-    gap: 5em;
-    top: 0;
+header {
+  background: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6.5vh;
+  position: fixed;
+  width: 100%;
+  gap: 5em;
+  top: 0;
 }
 
-main{
-    height: 15vh;
+main {
+  height: 15vh;
 }
 
-.botao{
-    margin: 0 15px; /*Espaçamento botões*/
-    background-color: red;
-    color: #fff;
-    padding: 10px 40px;/*Mudar tamanho do botão*/
-    border: 1px solid red;
-    border-radius: 10px;
-    cursor: pointer;/*Mudar para mãozinha no mouse*/
-    font-size: 15px;
-    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+.botao {
+  margin: 0 15px; /*Espaçamento botões*/
+  background-color: red;
+  color: #fff;
+  padding: 10px 40px; /*Mudar tamanho do botão*/
+  border: 1px solid red;
+  border-radius: 10px;
+  cursor: pointer; /*Mudar para mãozinha no mouse*/
+  font-size: 15px;
+  transition: all 0.3s ease; /*Tempo transição mudar cor botão*/
 }
 
-.botao:hover{
-    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
-    color: red;
+.botao:hover {
+  background-color: #fff; /*Mudar a cor quando passar a seta no mouse*/
+  color: red;
 }
 
-#titulo{
-    position: relative;
-    font-family: "Times New Roman";
-    margin-right: 20px;
+#titulo {
+  position: relative;
+  font-family: "Times New Roman";
+  margin-right: 20px;
 
-    color: rgb(251, 255, 0);
-    font-size: 25px;
-    left: -80px;
+  color: rgb(251, 255, 0);
+  font-size: 25px;
+  left: -80px;
 }
 
 a:link {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 a:visited {
-    color: #fff;
+  color: #fff;
 }
-

@@ -7,36 +7,36 @@
     <title>Informações de vendas e compras</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
 </head>
-
 <body>
   {% include 'header.html' %}
   <div class="container">
-    <h1>Dados de Compras e Vendas</h1>
+    <h1>Dados de Produtos</h1>
     <form method="post" class="formComprar">
       {%csrf_token%}
         <table >
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Total de Vendas</th>
-            <th>Total de Compras</th>
+            <th>Marca</th>
+            <th>Preço</th>
+            <th>Total Vendido</th>
+            <th>Total Comprado</th>
+            <th>Total Gasto</th>
+            <th>Total Ganho</th>
           </tr>
           {% for dado in dados %}
           <tr>
-            
             <td>{{dado.id}}</td>
             <td>{{dado.nome}}</td>
+            <td>{{dado.marca}}</td>
+            <td>{{dado.preco}}</td>
             <td>{{dado.Quantidade_Vendida}}</td>
             <td>{{dado.Quantidade_Comprada}}</td>
+            <td>{{dado.Total_Gasto}}</td>
+            <td>{{dado.Total_Ganho}}</td>
           </tr>
           {% endfor %}
         </table>
-          
-
     </form>
-
-
-
-  
 </body>
 </html>

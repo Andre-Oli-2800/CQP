@@ -1,97 +1,127 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/cadastro.css' %}"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
-</head>
-
-<body>
-  <div class="titulo">
-    <img src="{% static 'imagens/product-management.png' %}">
-    <h1>CQL</h1>
-  </div>
-  <div class="container">
-    <h1>Cadastro</h1>
-    <form method="post" class="formSite">
-      {%csrf_token%}
-
-      {% for message in messages %}
-      {% if status == "erro" %}
-      <p id="messagesErro" style="text-align:center"><br>
-      {% elif status == "sucesso" %}  
-      <p id="messagesSucesso" style="text-align:center"><br>
-      {% endif %}
-        {{ message }}
-      </p>
-      {% endfor %}
-      <div class="input-group">
-        <div class="input-single">
-          <label for="uname">CPF</label>
-          <input type="text" name="cpf" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Nome</label>
-          <input type="text" name="nome" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Sobrenome</label>
-          <input type="text" name="sobrenome" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Email</label>
-          <input type="text" name="email" class="input" autocomplete="email">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Telefone</label>
-          <input type="tel" name="tel" class="input" autocomplete="tel" value="()">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Celular</label>
-          <input type="tel" name="cel" class="input" autocomplete="tel" value="()">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Sexo</label>
-          <select name="sexo" id="uname" class="input">
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Data de Nascimento</label>
-          <input type="date" name="dtNascimento" class="input" size="30">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Senha</label>
-          <input type="password" name="senha" class="input" id="senha-box" min="5">
-        </div>
-
-        <div class="confSenha">
+  <body>
+    <div class="titulo">
+      <img src="{% static 'imagens/product-management.png' %}" />
+      <h1 id="titulo">CSP</h1>
+    </div>
+    <div class="container">
+      <h1>Cadastro</h1>
+      <form method="post" class="formSite">
+        {%csrf_token%}
+        <div class="input-group">
           <div class="input-single">
-            <label for="psw">Confirmar Senha</label>
-            <input type="password" name="confSenha" class="input" id="confirSenha-box" min="5">
+            <label for="uname">CPF</label>
+            <input type="text" name="cpf" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Nome</label>
+            <input type="text" name="nome" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Sobrenome</label>
+            <input type="text" name="sobrenome" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Email</label>
+            <input
+              type="text"
+              name="email"
+              class="input"
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Telefone</label>
+            <input
+              type="tel"
+              name="tel"
+              class="input"
+              autocomplete="tel"
+              value="()"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Celular</label>
+            <input
+              type="tel"
+              name="cel"
+              class="input"
+              autocomplete="tel"
+              value="()"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Sexo</label>
+            <select name="sexo" id="uname" class="input">
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Data de Nascimento</label>
+            <input type="date" name="dtNascimento" class="input" size="30" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Senha</label>
+            <input
+              type="password"
+              name="senha"
+              class="input"
+              id="senha-box"
+              min="5"
+            />
+          </div>
+
+          <div class="confSenha">
+            <div class="input-single">
+              <label for="psw">Confirmar Senha</label>
+              <input
+                type="password"
+                name="confSenha"
+                class="input"
+                id="confirSenha-box"
+                min="5"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="botoes">
-        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
-        <button type="submit" name="login" class="btn-primary">Login</button>
-      </div>
-      
-    </form>
-  </div>
-</body>
+        <div class="botoes">
+          <button type="submit" name="cadastrar" class="btn-primary">
+            Cadastrar
+          </button>
+          <button type="submit" name="login" class="btn-primary">Login</button>
+        </div>
+        <br />
+        {% for message in messages %}
+        <div id="messages" style="text-align: center">
+          <br />
+          <label for=""> {{ message }} </label>
+        </div>
+        {% endfor %}
+      </form>
+    </div>
+  </body>
 </html>

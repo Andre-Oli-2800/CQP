@@ -10,7 +10,7 @@
 <body>
     <div class="titulo">
         <img src="{% static 'imagens/product-management.png' %}">
-        <h1>CQP</h1>
+        <h1 id="titulo">CSP</h1>
     </div>
     <div class="container">
         <h1>Login</h1>
@@ -28,11 +28,12 @@
                 <button type="submit" class="btn-primary" name="login">Login</button>
                 <button type="submit" class="btn-primary" name="cadastrar">Cadastrar</button>
             </div>
-            {% for message in messages %}
-            <p id="messages" style="text-align:center"><br>
-                {{ message }}
-            </p>
-            {% endfor %}
+            <br>
+    {% for message in messages %}
+      <p id="messages" style="text-align:center">
+        {{ message }}
+      </p>
+      {% endfor %}
     </div>
     </form>
     </div>

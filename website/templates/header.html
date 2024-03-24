@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/header.css' %}"
+    />
+  </head>
+  <body>
     <form method="post" enctype="multipart/form-data">
-        {%csrf_token%}
-        <header>
-            <div class="iconeLogin">
-                <img src="{% static 'imagens/logo.png' %}">
-            </div>
-            <div id="titulo">
-                <label for="" name="titulo">CQP</label>
-            </div>
-            <a href="../editarPerfil/{{cpf}}" name="editarPerfil">Editar perfil</a>
-            <a href="../cadastrarCliente/{{cpf}}">Cliente</a>
-            <a href="../cadastrarFornecedor/{{cpf}}">Fornecedor</a>
-            <a href="../cadastroProduto/{{cpf}}">Produtos</a>
-            <a href="../cadastrarLote/{{cpf}}">Lote</a>
-            <a href="../comprarProduto/{{cpf}}">Comprar produto</a>
-            <a href="../graficos/{{cpf}}">Gráficos</a>
-            <button class="botao" name="Sair"> Sair</button>
-        </header>
-        <main></main>
+      {%csrf_token%}
+      <header>
+        <div class="iconeLogin">
+          <img src="{% static 'imagens/logo.png' %}" />
+        </div>
+        <div id="titulo">
+          <label for="" name="titulo">CSP</label>
+        </div>
+        <a href="../editarPerfil/{{cpf}}" name="editarPerfil">Editar perfil</a>
+        <a href="../cadastrarCliente/{{cpf}}">Cliente</a>
+        <a href="../cadastrarFornecedor/{{cpf}}">Fornecedor</a>
+        <a href="../cadastroProduto/{{cpf}}">Produtos</a>
+        <a href="../comprarProduto/{{cpf}}">Comprar Produto</a>
+        <a href="../venderProduto/{{cpf}}">Vender produto</a>
+        <a href="../dadosProdutos/{{cpf}}">Dados de Produtos</a>
+        <button class="botao" name="Sair">Sair</button>
+      </header>
+      <main></main>
     </form>
-</body>
+  </body>
 </html>

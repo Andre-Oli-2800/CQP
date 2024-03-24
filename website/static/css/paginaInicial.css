@@ -1,101 +1,103 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: roboto;
-    background-color: rgb(100, 100, 255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body {
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: roboto;
+  background-color: rgb(100, 100, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-h1{
-    color: white;
-    position: relative;
-    text-align: center;
-    border-radius: 10px;
+h1 {
+  color: white;
+  position: relative;
+  text-align: center;
+  border-radius: 10px;
 }
 
-form{
-    background-color: #ffffff;
-    width: 1000px; /*Aumentar largura do quadrado Tava em width:700*/
-    height: 550px; /*Aumentar altura do quadrado*/
-    padding: 40px;
-    border-radius: 40px;
+form {
+  background-color: #ffffff;
+  width: 1000px; /*Aumentar largura do quadrado Tava em width:700*/
+  height: 550px; /*Aumentar altura do quadrado*/
+  padding: 40px;
+  border-radius: 40px;
 
-    
-    box-shadow:20px ;
+  box-shadow: 20px;
 }
 
-.botao{
-    width: 200px;
-    height: 200px;
-    margin: 0 15px; /*Espaçamento botões*/
-    background-color: blue;
-    color: #fff;
-    border: 1px solid blue;
-    border-radius: 10px;
-    cursor: pointer;/*Mudar para mãozinha no mouse*/
-    font-size: 20px;
-    transition: all .3s ease;/*Tempo transição mudar cor botão*/
+.botao {
+  width: 200px;
+  height: 200px;
+  margin: 0 15px; /*Espaçamento botões*/
+  background-color: blue;
+  color: #fff;
+  border: 1px solid blue;
+  border-radius: 10px;
+  cursor: pointer; /*Mudar para mãozinha no mouse*/
+  font-size: 20px;
+  transition: all 0.3s ease; /*Tempo transição mudar cor botão*/
 }
 
 .botao:hover {
-    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
-    color: blue;
+  background-color: #fff; /*Mudar a cor quando passar a seta no mouse*/
+  color: blue;
 }
 
-.container{
-    max-width: 1280px;
-    margin: 0 auto;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-
-.input-single{
-    display: block;
-    position: relative;
-    margin: 20px 0;   
-    display: flex;
-    flex-direction: column;
+.input-single {
+  display: block;
+  position: relative;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.input-group{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.btnSair{
-    margin: 0 15px; /*Espaçamento botões*/
-    background-color: red;
-    color: #fff;
-    padding: 10px 40px;/*Mudar tamanho do botão*/
-    border: 1px solid red;
-    border-radius: 10px;
-    cursor: pointer;/*Mudar para mãozinha no mouse*/
-    font-size: 15px;
-    transition: all .3s ease;/*Tempo transição mudar cor botão*/
-    position: absolute;
+.btnSair {
+  margin: 0 15px; /*Espaçamento botões*/
+  background-color: red;
+  color: #fff;
+  padding: 10px 40px; /*Mudar tamanho do botão*/
+  border: 1px solid red;
+  border-radius: 10px;
+  cursor: pointer; /*Mudar para mãozinha no mouse*/
+  font-size: 15px;
+  transition: all 0.3s ease; /*Tempo transição mudar cor botão*/
+  position: absolute;
 
-    top: 1px;
-    right: 0;
+  top: 1px;
+  right: 0;
 }
 
-.btnSair:hover{
-    background-color: #fff;/*Mudar a cor quando passar a seta no mouse*/
-    color: red;
+.btnSair:hover {
+  background-color: #fff; /*Mudar a cor quando passar a seta no mouse*/
+  color: red;
 }
 
-#messages{
-    top: 50px;
-    right: 50px;
+#messages {
+  padding: 5px;
+  background-color: #9d00ff;
+  color: #fff;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }

@@ -1,126 +1,126 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: roboto;
-    background-color: rgb(100, 100, 255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow: 5px 10px;
-
+  width: 100%;
+  min-height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: roboto;
+  background-color: rgb(100, 100, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 10px;
 }
 
-.titulo{
-    color: rgb(255, 247, 0);;
-    float: left;
+.titulo {
+  color: white;
+  float: left;
+  width: 50%;
+  margin: auto;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 40px Arial;
+}
 
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin:auto;
-
-
-    border-radius: 10px;
-    text-align: center;
-    font-size: 40px Arial;
+#titulo {
+  text-align: center;
+  color: rgb(251, 255, 0);
+  font-family: "Times New Roman";
 }
 
 h1 {
-    color: white;
-    text-align: center;
-    /*border-radius: 10px;*/
+  color: white;
+  text-align: center;
 }
 
 .btn-primary {
-    width: 100px;
-    height: 40px;
-    margin: 0 15px;
-    /*Espaçamento botões*/
-    background-color: blue;
-    color: #fff;
-    border: 1px solid blue;
-    border-radius: 10px;
-    cursor: pointer;
-    /*Mudar para mãozinha no mouse*/
-    font-size: 15px;
-    transition: all .3s ease;
-    /*Tempo transição mudar cor botão*/
+  width: 100px;
+  height: 40px;
+  margin: 0 15px;
+  /*Espaçamento botões*/
+  background-color: blue;
+  color: #fff;
+  border: 1px solid blue;
+  border-radius: 10px;
+  cursor: pointer;
+  /*Mudar para mãozinha no mouse*/
+  font-size: 15px;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #fff;
-    /*Mudar a cor quando passar a seta no mouse*/
-    color: blue;
+  background-color: #fff;
+  /*Mudar a cor quando passar a seta no mouse*/
+  color: blue;
 }
 
 .container {
-    max-width: 1280px;
-    margin: 0 auto;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 form {
-    background-color: #fff;
-    max-width: 500px;
-    /*Aumentar largura do quadrado*/
-    height: 330px;
-    /*Aumentar altura do quadrado*/
-    padding: 40px;
-    border-radius: 20px;
-
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-
+  background-color: #fff;
+  max-width: 500px;
+  /*Aumentar largura do quadrado*/
+  height: 300px;
+  /*Aumentar altura do quadrado*/
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .input-single {
-    position: relative;
-    margin: 20px 0;
-
+  position: relative;
+  margin: 20px 0;
 }
 
 .input-single label {
-    left: -4;
-    cursor: text;
+  left: -4;
+  cursor: text;
 }
 
 .input {
-    width: 100%;
-    padding: 5px;
-    font-size: 17px;
-    outline: 0;
+  width: 100%;
+  padding: 5px;
+  font-size: 17px;
+  outline: 0;
 }
 
-form .input-single .input:focus+.label {
-    margin-top: 0px;
-    top: -50%;
-    z-index: 2;
-    transition: 0.2s;
+form .input-single .input:focus + .label {
+  margin-top: 0px;
+  top: -50%;
+  z-index: 2;
+  transition: 0.2s;
 }
 
 .botoes {
-    text-align: center;
-    /*top: 25px;
-    position: relative;*/
+  text-align: center;
 }
 
 .estudeHistoria {
-    width: 357px;
-    position: fixed;
-    top: 30px;
-    font-family: "Times New Roman";
+  width: 357px;
+  position: fixed;
+  top: 30px;
+  font-family: "Times New Roman";
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+#messages {
+  padding: 5px;
+  background-color: #9d00ff;
+  color: #fff;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }

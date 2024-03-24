@@ -2,9 +2,10 @@
 {% load static %}
 <html lang="pt-br">
   <head>
+    {% include 'header.html' %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro</title>
+    <title>Comprar Produtos</title>
     <link
       rel="stylesheet"
       type="text/css"
@@ -13,15 +14,24 @@
   </head>
 
   <body>
-    {% include 'header.html' %}
     <div class="container">
-      <h1>Comprar Produto</h1>
-      <form method="post" class="formComprar">
+      <h1>Vender Produto</h1>
+      <form method="post" class="formVender">
         {%csrf_token%}
         <div class="input-group">
           <div class="input-single">
-            <label for="uname">ID do Produto</label>
+            <label for="uname">CPF do Cliente</label>
+            <select name="cpfCli" id="">
+              {% for cliente in clientes %}
+              <option value="{{cliente.cpf}}">
+                CPF:{{cliente.cpf}} | Nome:{{cliente.nome}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
 
+          <div class="input-single">
+            <label for="uname">Nome do Produto</label>
             <select name="idProduto" id="">
               {% for produto in produtos %}
               <option value="{{produto.id}}">
@@ -32,25 +42,14 @@
           </div>
 
           <div class="input-single">
-            <label for="uname">CNPJ do Fornecedor</label>
-            <select name="cnpj" id="">
-              {% for fornecedor in fornecedores %}
-              <option value="{{fornecedor.cnpj}}">
-                CNPJ:{{fornecedor.cnpj}} | Fornecedor:{{fornecedor.nome}}
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <div class="input-single">
             <label for="uname">Quantidade</label>
-            <input type="num" name="quantidade" class="input" />
+            <input type="number" name="quant" class="input" />
           </div>
         </div>
 
         <div class="botoes">
-          <button type="submit" name="cadastrar" class="btn-primary">
-            Comprar
+          <button type="submit" name="comprar" class="btn-primary">
+            Vender
           </button>
         </div>
         <br />

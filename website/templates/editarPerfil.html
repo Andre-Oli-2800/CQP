@@ -1,70 +1,116 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar perfil</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
-</head>
-<body>
-  {% include 'header.html' %}
-  <div class="container">
-    <h1>Editar Perfil</h1>
-    <form method="post" enctype="multipart/form-data" class="formSite">
-      {%csrf_token%}
-      <div class="input-group">
-        <div class="input-single">
-          {% for usua in usuario %}
-          <label for="uname">CPF</label>
-          <input type="text" name="cpf" class="input" value="{{usua.cpf}}" disabled="disabled">
-        </div>
-        <div class="input-single">
-          <label for="uname">Nome</label>
-          <input type="text" name="nome" class="input" value="{{usua.nome}}">
-        </div>
-        <div class="input-single">
-          <label for="uname">Sobrenome</label>
-          <input type="text" name="sobrenome" class="input" value="{{usua.sobrenome}}">
-        </div>
-        <div class="input-single">
-          <label for="uname">E-mail</label>
-          <input type="text" name="email" class="input" value="{{usua.email}}">
-        </div>
-        <div class="input-single">
-          <label for="uname">Sexo</label>
-          <select name="sexo" id="uname" class="input">
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-        <div class="input-single">
-          <label for="uname">Data de Nascimento</label>
-          <input type="date" name="dtNascimento" class="input" size="30" value="{{data}}">
-        </div>
-        <div class="input-single">
-          <label for="uname">Senha</label>
-          <input type="password" name="senha" class="input" id="senha-box" value="{{usua.senha}}">
-        </div>
-        <div class="confSenha">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar perfil</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/cadastro.css' %}"
+    />
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <div class="container">
+      <h1>Editar Perfil</h1>
+      <form method="post" enctype="multipart/form-data" class="formEditar">
+        {%csrf_token%}
+        <div class="input-group">
           <div class="input-single">
-            <label for="psw">Confirmar Senha</label>
-            <input type="password" name="confSenha" class="input" id="confirSenha-box" value="{{usua.senha}}">
-            {% endfor %}
+            {% for usua in usuario %}
+            <label for="uname">CPF</label>
+            <input
+              type="text"
+              name="cpf"
+              class="input"
+              value="{{usua.cpf}}"
+              disabled="disabled"
+            />
+          </div>
+          <div class="input-single">
+            <label for="uname">Nome</label>
+            <input
+              type="text"
+              name="nome"
+              class="input"
+              value="{{usua.nome}}"
+            />
+          </div>
+          <div class="input-single">
+            <label for="uname">Sobrenome</label>
+            <input
+              type="text"
+              name="sobrenome"
+              class="input"
+              value="{{usua.sobrenome}}"
+            />
+          </div>
+          <div class="input-single">
+            <label for="uname">E-mail</label>
+            <input
+              type="text"
+              name="email"
+              class="input"
+              value="{{usua.email}}"
+            />
+          </div>
+          <div class="input-single">
+            <label for="uname">Sexo</label>
+            <select name="sexo" id="uname" class="input">
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div class="input-single">
+            <label for="uname">Data de Nascimento</label>
+            <input
+              type="date"
+              name="dtNascimento"
+              class="input"
+              size="30"
+              value="{{data}}"
+            />
+          </div>
+          <div class="input-single">
+            <label for="uname">Senha</label>
+            <input
+              type="password"
+              name="senha"
+              class="input"
+              id="senha-box"
+              value="{{usua.senha}}"
+            />
+          </div>
+          <div class="confSenha">
+            <div class="input-single">
+              <label for="psw">Confirmar Senha</label>
+              <input
+                type="password"
+                name="confSenha"
+                class="input"
+                id="confirSenha-box"
+                value="{{usua.senha}}"
+              />
+              {% endfor %}
+            </div>
           </div>
         </div>
-      </div>
-      <br>
-      <div class="botoes">
-        <button type="submit" name="salvar" class="btn-primary">Salvar</button>
-      </div>
-      {% for message in messages %}
-      <p id="messages" style="text-align:center"><br>
-        {{ message }}
-      </p>
-      {% endfor %}
-    </form>
-  </div>
-</body>
+        <br />
+        <div class="botoes">
+          <button type="submit" name="salvar" class="btn-primary">
+            Salvar
+          </button>
+        </div>
+        <br />
+        {% for message in messages %}
+        <p id="messages" style="text-align: center">
+          <label for=""> {{ message }} </label>
+        </p>
+        {% endfor %}
+      </form>
+    </div>
+  </body>
 </html>

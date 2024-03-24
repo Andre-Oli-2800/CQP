@@ -1,72 +1,83 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Fornecedor</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/cadastro.css' %}"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastrar Fornecedor</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
-</head>
+  <body>
+    {% include 'header.html' %}
+    <div class="container">
+      <h1>Cadastrar Fornecedor</h1>
+      <form method="post" class="formFornecedor">
+        {%csrf_token%}
+        <div class="input-group">
+          <div class="input-single">
+            <label for="uname">CNPJ</label>
+            <input type="text" name="cnpj" class="input" />
+          </div>
 
-<body>
-  {% include 'header.html' %}
-  <div class="container">
-    <h1>Cadastrar Fornecedor</h1>
-    <form method="post" class="formFornecedor">
-      {%csrf_token%}
-      <div class="input-group">
-        <div class="input-single">
-          <label for="uname">CNPJ</label>
-          <input type="text" name="cnpj" class="input">
+          <div class="input-single">
+            <label for="uname">Nome</label>
+            <input type="text" name="nome" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Ramo</label>
+            <input type="text" name="ramo" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">E-mail</label>
+            <input type="text" name="email" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Telefone</label>
+            <input
+              type="text"
+              name="telefone"
+              class="input"
+              pattern="^\(\d{2}\)\d{4,5}-\d{4}$"
+              value="()"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Endereço</label>
+            <input type="text" name="endereco" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Cidade</label>
+            <input type="text" name="cidade" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Estado</label>
+            <input type="text" name="estado" class="input" />
+          </div>
         </div>
-
-        <div class="input-single">
-          <label for="uname">Nome</label>
-          <input type="text" name="nome" class="input">
+        <div class="botoes">
+          <button type="submit" name="cadastrar" class="btn-primary">
+            Cadastrar
+          </button>
         </div>
-
-        <div class="input-single">
-          <label for="uname">Ramo</label>
-          <input type="text" name="ramo" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">E-mail</label>
-          <input type="text" name="email" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Telefone</label>
-          <input type="text" name="telefone" class="input"
-          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Endereço</label>
-          <input type="text" name="endereco" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Cidade</label>
-          <input type="text" name="cidade" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Estado</label>
-          <input type="text" name="estado" class="input">
-        </div>
-   
-      </div>
-      <div class="botoes">
-        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
-      </div>
-      {% for message in messages %}
-      <p id="messages" style="text-align:center"><br>
-        {{ message }}
-      </p>
-      {% endfor %}
-    </form>
-  </div>
-</body>
+        <br />
+        {% for message in messages %}
+        <p id="messages" style="text-align: center">
+          <br />
+          <label for=""> {{ message }} </label>
+        </p>
+        {% endfor %}
+      </form>
+    </div>
+  </body>
 </html>

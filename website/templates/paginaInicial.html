@@ -1,74 +1,75 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Inicial</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/paginaInicial.css' %}">
-</head>
-<body>
-  <div class="container">
-    <h1>Página Inicial</h1>
-    <form method="post">
-      {%csrf_token%}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página Inicial</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/paginaInicial.css' %}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Página Inicial</h1>
+      <form method="post">
+        {% for message in messages %}
+        <p id="messages" style="text-align: center">
+          <label for=""> {{ message }} </label>
+        </p>
+        {% endfor %} {%csrf_token%}
         <button name="sair" class="btnSair">Sair</button>
-      <div class="input-group">
-        <div class="input-single">
-          <button type="submit" name="editarConta" class="botao">
-            <img src="{% static 'imagens/editarPerfil.png'%}">
-            <p>Editar perfil</p>
-          </button>
-        </div>
-        <div class="input-single">
-          <button type="submit" name="cadCliente" class="botao">
-            <img src="{% static 'imagens/cliente.png'%}">
-            <p>Cadastrar cliente</p>
-          </button>
-        </div>
-        <div class="input-single">
-          <button type="submit" name="CadFornecedor" class="botao">
-            <img src="{% static 'imagens/fornecedor.png'%}">
-            <p>Cadastrar fornecedor</p>
-          </button>
-        </div>
+        <div class="input-group">
+          <div class="input-single">
+            <button type="submit" name="editarConta" class="botao">
+              <img src="{% static 'imagens/editarPerfil.png'%}" />
+              <p>Editar perfil</p>
+            </button>
+          </div>
+          <div class="input-single">
+            <button type="submit" name="cadCliente" class="botao">
+              <img src="{% static 'imagens/cliente.png'%}" />
+              <p>Cadastrar cliente</p>
+            </button>
+          </div>
+          <div class="input-single">
+            <button type="submit" name="CadFornecedor" class="botao">
+              <img src="{% static 'imagens/fornecedor.png'%}" />
+              <p>Cadastrar fornecedor</p>
+            </button>
+          </div>
 
-        <div class="input-single">
-          <button type="submit" name="cadProduto" class="botao">
-            <img src="{% static 'imagens/produto.png'%}">
-            <p>Cadastrar produto</p>
-          </button>
-        </div>
+          <div class="input-single">
+            <button type="submit" name="cadProduto" class="botao">
+              <img src="{% static 'imagens/produto.png'%}" />
+              <p>Cadastrar produto</p>
+            </button>
+          </div>
 
-        <div class="input-single">
-          <button type="submit" name="comprarProduto" class="botao">
-            <img src="{% static 'imagens/comprar.png'%}">
-            <p>Comprar produto</p>
-          </button>
-        </div>
+          <div class="input-single">
+            <button type="submit" name="venderProduto" class="botao">
+              <img src="{% static 'imagens/vender.png'%}" />
+              <p>Vender produto</p>
+            </button>
+          </div>
 
-        <div class="input-single">
-          <button type="submit" name="cadLote" class="botao">
-            <img src="{% static 'imagens/lote.png'%}">
-            <p>Cadastrar lote</p>
-          </button>
-        </div>
+          <div class="input-single">
+            <button type="submit" name="comprarProduto" class="botao">
+              <img src="{% static 'imagens/lote.png'%}" />
+              <p>Comprar Produto</p>
+            </button>
+          </div>
 
-        <div class="input-single">
-          <button type="submit" name="grafico" class="botao">
-            <img src="{% static 'imagens/grafico.png'%}">
-            <p>Ver gráfico</p>
-          </button>
+          <div class="input-single">
+            <button type="submit" name="dadosProdutos" class="botao">
+              <img src="{% static 'imagens/grid.png'%}" />
+              <p>Ver Dados de Produtos</p>
+            </button>
+          </div>
         </div>
-
-      </div>
-      {% for message in messages %}
-            <p id="messages" style="text-align:center"><br>
-                {{ message }}
-            </p>
-            {% endfor %}
-    </form>
-    
-  </div>
-</body>
+      </form>
+    </div>
+  </body>
 </html>

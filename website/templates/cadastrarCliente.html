@@ -1,88 +1,104 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/cadastro.css' %}"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
-</head>
+  <body>
+    {% include 'header.html' %}
+    <div class="container">
+      <h1>Cadastrar Cliente</h1>
+      <form method="post" class="formSite">
+        {%csrf_token%}
+        <div class="input-group">
+          <div class="input-single">
+            <label for="uname">CPF</label>
+            <input type="text" name="cpf" class="input" />
+          </div>
 
-<body>
-  {% include 'header.html' %}
-  <div class="container">
-    <h1>Cadastrar Cliente</h1>
-    <form method="post" class="formSite">
-      {%csrf_token%}
-      <div class="input-group">
-        <div class="input-single">
-          <label for="uname">CPF</label>
-          <input type="text" name="cpf" class="input">
+          <div class="input-single">
+            <label for="uname">Nome</label>
+            <input type="text" name="nome" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Sobrenome</label>
+            <input type="text" name="sobrenome" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Email</label>
+            <input type="text" name="email" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Endereço</label>
+            <input type="text" name="endereco" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Cidade</label>
+            <input type="text" name="cidade" class="input" />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Telefone</label>
+            <input
+              type="text"
+              name="telefone"
+              class="input"
+              pattern="^\(\d{2}\)\d{4,5}-\d{4}$"
+              value="()"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Celular</label>
+            <input
+              type="text"
+              name="celular"
+              class="input"
+              pattern="^\(\d{2}\)\d{4,5}-\d{4}$"
+              value="()"
+            />
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Sexo</label>
+            <select name="sexo" id="uname" class="input">
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="input-single">
+            <label for="uname">Data de Nascimento</label>
+            <input type="date" name="dtNascimento" class="input" size="30" />
+          </div>
         </div>
 
-        <div class="input-single">
-          <label for="uname">Nome</label>
-          <input type="text" name="nome" class="input">
+        <div class="botoes">
+          <button type="submit" name="cadastrar" class="btn-primary">
+            Cadastrar
+          </button>
         </div>
-
-        <div class="input-single">
-          <label for="uname">Sobrenome</label>
-          <input type="text" name="sobrenome" class="input">
+        <br />
+        {% for message in messages %}
+        <div id="messages" style="text-align: center">
+          <br />
+          <label for=""> {{ message }} </label>
         </div>
-
-        <div class="input-single">
-          <label for="uname">Email</label>
-          <input type="text" name="email" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Endereço</label>
-          <input type="text" name="endereco" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Cidade</label>
-          <input type="text" name="cidade" class="input">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Telefone</label>
-          <input type="text" name="telefone" class="input" 
-          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">         
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Celular</label>
-          <input type="text" name="celular" class="input"
-          pattern="^\(\d{2}\)\d{4,5}-\d{4}$" value="()">
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Sexo</label>
-          <select name="sexo" id="uname" class="input">
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <div class="input-single">
-          <label for="uname">Data de Nascimento</label>
-          <input type="date" name="dtNascimento" class="input" size="30">
-        </div>
-
-      </div>
-      
-      <div class="botoes">
-        <button type="submit" name="cadastrar" class="btn-primary">Cadastrar</button>
-      </div>
-      {% for message in messages %}
-      <p id="messages" style="text-align:center"><br>
-        {{ message }}
-      </p>
-      {% endfor %}
-    </form>
-  </div>
-</body>
+        {% endfor %}
+      </form>
+    </div>
+  </body>
 </html>
